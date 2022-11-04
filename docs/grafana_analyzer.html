@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Omniperf Grafana GUI Analyzer &mdash; Omniperf  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="FAQ" href="faq.html" />
+    <link rel="prev" title="Omniperf Performance Analysis" href="performance_analysis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Omniperf
+          </a>
+              <div class="version">
+                1.0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="high_level_design.html">Omniperf High Level Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Omniperf Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_analysis.html">Omniperf Performance Analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Omniperf Grafana GUI Analyzer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#speed-of-light">Speed-of-Light</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-normalization">Multi Normalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#baseline-comparison">Baseline Comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#regex-based-dispatch-id-filtering">Regex based Dispatch ID filtering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#incremental-profiling">Incremental Profiling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#color-coding">Color Coding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#global-variables-and-configurations">Global Variables and Configurations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#omniperf-panels">Omniperf Panels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#system-info-panel">System Info Panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kernel-statistics">Kernel Statistics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kernel-time-histogram">Kernel Time Histogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#top-bottleneck-kernels">Top Bottleneck Kernels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#top-bottleneck-dispatches">Top Bottleneck Dispatches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#current-and-baseline-dispatch-ids-filtered">Current and Baseline Dispatch IDs (Filtered)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#system-speed-of-light">System Speed-of-Light</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memory-chart-analysis">Memory Chart Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#roofline-analysis">Roofline Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#command-processor">Command Processor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shader-processing-input-spi">Shader Processing Input (SPI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wavefront-launch">Wavefront Launch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-unit-instruction-mix">Compute Unit - Instruction Mix</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#instruction-mix">Instruction Mix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#valu-arithmetic-instruction-mix">VALU Arithmetic Instruction Mix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mfma-arithmetic-instruction-mix">MFMA Arithmetic Instruction Mix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vmem-arithmetic-instruction-mix">VMEM Arithmetic Instruction Mix</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#compute-unit-compute-pipeline">Compute Unit - Compute Pipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Speed-of-Light</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compute-pipeline-stats">Compute Pipeline Stats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#arithmetic-operations">Arithmetic Operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#memory-latencies">Memory Latencies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#local-data-share-lds">Local Data Share (LDS)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Speed-of-Light</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lds-stats">LDS Stats</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#instruction-cache">Instruction Cache</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Speed-of-Light</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#instruction-cache-stats">Instruction Cache Stats</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#scalar-l1d-cache">Scalar L1D Cache</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Speed-of-Light</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#constant-cache-stats">Constant Cache Stats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#constant-cache-l2-interface">Constant Cache - L2 Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#texture-address-and-texture-data">Texture Address and Texture Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#texture-address-ta">Texture Address (TA)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#texture-data-td">Texture Data (TD)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#vector-l1d-cache">Vector L1D Cache</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Speed-of-Light</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vector-l1d-cache-accesses">Vector L1D Cache Accesses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l1-cache-stalls">L1 Cache Stalls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l1-l2-transactions">L1 - L2 Transactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l1-utcl1-interface-stats">L1 - UTCL1 Interface Stats</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#l2-cache">L2 Cache</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Speed-of-Light</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l2-cache-accesses">L2 Cache Accesses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l2-ea-transactions">L2 - EA Transactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l2-ea-stalls">L2 - EA Stalls</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#l2-cache-per-channel-performance">L2 Cache Per Channel Performance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">L1-L2 Transactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">L2-EA Transactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l2-ea-latencies">L2-EA Latencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">L2-EA Stalls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l2-ea-write-stalls">L2-EA Write Stalls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l2-ea-write-starvation">L2-EA Write Starvation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Omniperf</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Omniperf Grafana GUI Analyzer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/grafana_analyzer.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="omniperf-grafana-gui-analyzer">
+<h1>Omniperf Grafana GUI Analyzer<a class="headerlink" href="#omniperf-grafana-gui-analyzer" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading"></a></h2>
+<p>The Omniperf Grafana GUI Analyzer supports the following features to facilitate MI GPU performance profiling and analysis:</p>
+<ul class="simple">
+<li><p>System and IP-Block Speed-of-Light (SOL)</p></li>
+<li><p>Multiple normalization options, including per-cycle, per-wave, per-kernel and per-second.</p></li>
+<li><p>Baseline comparisons</p></li>
+<li><p>Regex based Dispatch ID filtering</p></li>
+<li><p>Roofline Analysis</p></li>
+<li><p>Detailed per IP Block performance counters and metrics</p>
+<ul>
+<li><p>CPC/CPF</p></li>
+<li><p>SPI</p></li>
+<li><p>SQ</p></li>
+<li><p>SQC</p></li>
+<li><p>TA/TD</p></li>
+<li><p>TCP</p></li>
+<li><p>TCC (both aggregated and per-channel perf info)</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="speed-of-light">
+<h3>Speed-of-Light<a class="headerlink" href="#speed-of-light" title="Permalink to this heading"></a></h3>
+<p>Speed-of-light panels are provided at both the system and per IP block level to help diagnosis performance bottlenecks. The performance numbers of the workload under testing are compared to the theoretical maximum, (e.g. floating point operations, bandwidth, cache hit rate, etc.), to indicate the available room to further utilize the hardware capability.</p>
+</div>
+<div class="section" id="multi-normalization">
+<h3>Multi Normalization<a class="headerlink" href="#multi-normalization" title="Permalink to this heading"></a></h3>
+<p>Multiple performance number normalizations are provided to allow performance inspection within both HW and SW context. The following normalizations are permitted:</p>
+<ul class="simple">
+<li><p>per cycle</p></li>
+<li><p>per wave</p></li>
+<li><p>per kernel</p></li>
+<li><p>per second</p></li>
+</ul>
+</div>
+<div class="section" id="baseline-comparison">
+<h3>Baseline Comparison<a class="headerlink" href="#baseline-comparison" title="Permalink to this heading"></a></h3>
+<p>Omniperf enables baseline comparison to allow checking A/B effect. The current release limits the baseline comparison to the same SoC. Cross comparison between SoCs is in development.</p>
+<p>For both the Current Workload and the Baseline Workload, one can independently setup the following filters to allow fine grained comparions:</p>
+<ul class="simple">
+<li><p>Workload Name</p></li>
+<li><p>GPU ID filtering (multi selection)</p></li>
+<li><p>Kernel Name filtering (multi selection)</p></li>
+<li><p>Dispatch ID filtering (Regex filtering)</p></li>
+<li><p>Omniperf Panels (multi selection)</p></li>
+</ul>
+</div>
+<div class="section" id="regex-based-dispatch-id-filtering">
+<h3>Regex based Dispatch ID filtering<a class="headerlink" href="#regex-based-dispatch-id-filtering" title="Permalink to this heading"></a></h3>
+<p>This release enables regex based dispatch ID filtering to flexibly choose the kernel invocations. One may refer to <a class="reference external" href="https://3widgets.com/">Regex Numeric Range Generator</a>, to generate typical number ranges.</p>
+<p>For example, if one wants to inspect Dispatch Range from 17 to 48, inclusive, the corresponding regex is : <strong>(1[7-9]|[23]\d|4[0-8])</strong>. The generated express can be copied over for filtering.</p>
+</div>
+<div class="section" id="incremental-profiling">
+<h3>Incremental Profiling<a class="headerlink" href="#incremental-profiling" title="Permalink to this heading"></a></h3>
+<p>Omniperf supports incremental profiling to significantly speed up performance analysis.</p>
+<blockquote>
+<div><p>Refer to <span class="xref myst"><em>IP Block profiling</em></span> section for this command.</p>
+</div></blockquote>
+<p>By default, the entire application is profiled to collect perfmon counter for all IP blocks, giving a system level view of where the workload stands in terms of performance optimization opportunities and bottlenecks.</p>
+<p>After that one may focus on only a few IP blocks, (e.g., L1 Cache or LDS) to closely check the effect of software optimizations, without performing application replay for all other IP Blocks. This saves lots of compute time. In addition, the prior profiling results for other IP blocks are not overwritten. Instead, they can be merged during the import to piece together the system view.</p>
+</div>
+<div class="section" id="color-coding">
+<h3>Color Coding<a class="headerlink" href="#color-coding" title="Permalink to this heading"></a></h3>
+<p>The uniform color coding is applied to most visualizations (bars, table, diagrams etc). Typically, Yellow color means over 50%, while Red color mean over 90% percent, for easy inspection.</p>
+</div>
+<div class="section" id="global-variables-and-configurations">
+<h3>Global Variables and Configurations<a class="headerlink" href="#global-variables-and-configurations" title="Permalink to this heading"></a></h3>
+<p><img alt="Grafana GUI Global Variables" src="_images/global_variables.png" /></p>
+</div>
+</div>
+<div class="section" id="omniperf-panels">
+<h2>Omniperf Panels<a class="headerlink" href="#omniperf-panels" title="Permalink to this heading"></a></h2>
+<div class="section" id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h3>
+<p>There are currently 18 main panel categories available for analyzing the compute workload performance. Each category contains several panels for close inspection of the system performance.</p>
+<ul class="simple">
+<li><p>Kernel Statistics</p>
+<ul>
+<li><p>Kernel time histogram</p></li>
+<li><p>Top Ten bottleneck kernels</p></li>
+</ul>
+</li>
+<li><p>System Speed-of-Light</p>
+<ul>
+<li><p>Speed-of-Light</p></li>
+<li><p>System Info table</p></li>
+</ul>
+</li>
+<li><p>Memory Chart Analysis</p></li>
+<li><p>Roofline Analysis</p>
+<ul>
+<li><p>FP32/FP64</p></li>
+<li><p>FP16/INT8</p></li>
+</ul>
+</li>
+<li><p>Command Processor</p>
+<ul>
+<li><p>Command Processor - Fetch (CPF)</p></li>
+<li><p>Command Processor - Controller (CPC)</p></li>
+</ul>
+</li>
+<li><p>Shader Processing Input (SPI)</p>
+<ul>
+<li><p>SPI Stats</p></li>
+<li><p>SPI Resource Allocations</p></li>
+</ul>
+</li>
+<li><p>Wavefront Launch</p>
+<ul>
+<li><p>Wavefront Launch Stats</p></li>
+<li><p>Wavefront runtime stats</p></li>
+<li><p>per-SE Wavefront Scheduling performance</p></li>
+</ul>
+</li>
+<li><p>Wavefront Lifetime</p>
+<ul>
+<li><p>Wavefront lifetime breakdown</p></li>
+<li><p>per-SE wavefront life (average)</p></li>
+<li><p>per-SE wavefront life (histogram)</p></li>
+</ul>
+</li>
+<li><p>Wavefront Occupancy</p>
+<ul>
+<li><p>per-SE wavefront occupancy</p></li>
+<li><p>per-CU wavefront occupancy</p></li>
+</ul>
+</li>
+<li><p>Compute Unit - Instruction Mix</p>
+<ul>
+<li><p>per-wave Instruction mix</p></li>
+<li><p>per-wave VALU Arithmetic instruction mix</p></li>
+<li><p>per-wave MFMA Arithmetic instruction mix</p></li>
+</ul>
+</li>
+<li><p>Compute Unit - Compute Pipeline</p>
+<ul>
+<li><p>Speed-of-Light: Compute Pipeline</p></li>
+<li><p>Arithmetic OPs count</p></li>
+<li><p>Compute pipeline stats</p></li>
+<li><p>Memory latencies</p></li>
+</ul>
+</li>
+<li><p>Local Data Share (LDS)</p>
+<ul>
+<li><p>Speed-of-Light: LDS</p></li>
+<li><p>LDS stats</p></li>
+</ul>
+</li>
+<li><p>Instruction Cache</p>
+<ul>
+<li><p>Speed-of-Light: Instruction Cache</p></li>
+<li><p>Instruction Cache Accesses</p></li>
+</ul>
+</li>
+<li><p>Constant Cache</p>
+<ul>
+<li><p>Speed-of-Light: Constant Cache</p></li>
+<li><p>Constant Cache Accesses</p></li>
+<li><p>Constant Cache - L2 Interface stats</p></li>
+</ul>
+</li>
+<li><p>Texture Address and Texture Data</p>
+<ul>
+<li><p>Texture Address (TA)</p></li>
+<li><p>Texture Data (TD)</p></li>
+</ul>
+</li>
+<li><p>L1 Cache</p>
+<ul>
+<li><p>Speed-of-Light: L1 Cache</p></li>
+<li><p>L1 Cache Accesses</p></li>
+<li><p>L1 Cache Stalls</p></li>
+<li><p>L1 - L2 Transactions</p></li>
+<li><p>L1 - UTCL1 Interface stats</p></li>
+</ul>
+</li>
+<li><p>L2 Cache</p>
+<ul>
+<li><p>Speed-of-Light: L2 Cache</p></li>
+<li><p>L2 Cache Accesses</p></li>
+<li><p>L2 - EA Transactions</p></li>
+<li><p>L2 - EA Stalls</p></li>
+</ul>
+</li>
+<li><p>L2 Cache Per Channel Performance</p>
+<ul>
+<li><p>Per-channel L2 Hit rate</p></li>
+<li><p>Per-channel L1-L2 Read requests</p></li>
+<li><p>Per-channel L1-L2 Write Requests</p></li>
+<li><p>Per-channel L1-L2 Atomic Requests</p></li>
+<li><p>Per-channel L2-EA Read requests</p></li>
+<li><p>Per-channel L2-EA Write requests</p></li>
+<li><p>Per-channel L2-EA Atomic requests</p></li>
+<li><p>Per-channel L2-EA Read latency</p></li>
+<li><p>Per-channel L2-EA Write latency</p></li>
+<li><p>Per-channel L2-EA Atomic  latency</p></li>
+<li><p>Per-channel L2-EA Read stall (I/O, GMI, HBM)</p></li>
+<li><p>Per-channel L2-EA Write stall (I/O, GMI, HBM, Starve)</p></li>
+</ul>
+</li>
+</ul>
+<p>Most panels are designed around a specific IP block to thoroughly understand its behavior. Additional panels, including custom panels, could also be added to aid the performance analysis.</p>
+</div>
+<div class="section" id="system-info-panel">
+<h3>System Info Panel<a class="headerlink" href="#system-info-panel" title="Permalink to this heading"></a></h3>
+<p><img alt="System Info Panel" src="_images/System_info_panel.png" /></p>
+</div>
+<div class="section" id="kernel-statistics">
+<h3>Kernel Statistics<a class="headerlink" href="#kernel-statistics" title="Permalink to this heading"></a></h3>
+<div class="section" id="kernel-time-histogram">
+<h4>Kernel Time Histogram<a class="headerlink" href="#kernel-time-histogram" title="Permalink to this heading"></a></h4>
+<p><img alt="Kernel Time Histogram" src="_images/Kernel_time_histogram.png" /></p>
+</div>
+<div class="section" id="top-bottleneck-kernels">
+<h4>Top Bottleneck Kernels<a class="headerlink" href="#top-bottleneck-kernels" title="Permalink to this heading"></a></h4>
+<p><img alt="Top Bottleneck Kernels" src="_images/Top_bottleneck_kernels.png" /></p>
+</div>
+<div class="section" id="top-bottleneck-dispatches">
+<h4>Top Bottleneck Dispatches<a class="headerlink" href="#top-bottleneck-dispatches" title="Permalink to this heading"></a></h4>
+<p><img alt="Top Bottleneck Dispatches" src="_images/Top_bottleneck_dispatches.png" /></p>
+</div>
+<div class="section" id="current-and-baseline-dispatch-ids-filtered">
+<h4>Current and Baseline Dispatch IDs (Filtered)<a class="headerlink" href="#current-and-baseline-dispatch-ids-filtered" title="Permalink to this heading"></a></h4>
+<p><img alt="Current and Baseline Dispatch IDs" src="_images/Current_and_baseline_dispatch_ids.png" /></p>
+</div>
+</div>
+<div class="section" id="system-speed-of-light">
+<h3>System Speed-of-Light<a class="headerlink" href="#system-speed-of-light" title="Permalink to this heading"></a></h3>
+<p><img alt="System Speed-of-Light" src="_images/System_speed_of_light.png" /></p>
+</div>
+<div class="section" id="memory-chart-analysis">
+<h3>Memory Chart Analysis<a class="headerlink" href="#memory-chart-analysis" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>Note: The Memory Chart Analysis support multiple normalizations. Due to the space limit, all transactions, when normalized to per-sec, default to unit of Billion transactions per second.</p>
+</div></blockquote>
+<p><img alt="Memory Chart Analysis" src="_images/Memory_chart_analysis.png" /></p>
+</div>
+<div class="section" id="roofline-analysis">
+<h3>Roofline Analysis<a class="headerlink" href="#roofline-analysis" title="Permalink to this heading"></a></h3>
+<p><img alt="Roofline Analysis" src="_images/Roofline_analysis.png" /></p>
+</div>
+<div class="section" id="command-processor">
+<h3>Command Processor<a class="headerlink" href="#command-processor" title="Permalink to this heading"></a></h3>
+<p><img alt="Command Processor" src="_images/Command_processor.png" /></p>
+</div>
+<div class="section" id="shader-processing-input-spi">
+<h3>Shader Processing Input (SPI)<a class="headerlink" href="#shader-processing-input-spi" title="Permalink to this heading"></a></h3>
+<p><img alt="Shader Processing Input" src="_images/Shader_processing_input.png" /></p>
+</div>
+<div class="section" id="wavefront-launch">
+<h3>Wavefront Launch<a class="headerlink" href="#wavefront-launch" title="Permalink to this heading"></a></h3>
+<p><img alt="Wavefront Launch" src="_images/Wavefront_launch.png" /></p>
+</div>
+<div class="section" id="compute-unit-instruction-mix">
+<h3>Compute Unit - Instruction Mix<a class="headerlink" href="#compute-unit-instruction-mix" title="Permalink to this heading"></a></h3>
+<div class="section" id="instruction-mix">
+<h4>Instruction Mix<a class="headerlink" href="#instruction-mix" title="Permalink to this heading"></a></h4>
+<p><img alt="Instruction Mix" src="_images/Instruction_mix.png" /></p>
+</div>
+<div class="section" id="valu-arithmetic-instruction-mix">
+<h4>VALU Arithmetic Instruction Mix<a class="headerlink" href="#valu-arithmetic-instruction-mix" title="Permalink to this heading"></a></h4>
+<p><img alt="VALU Arithmetic Instruction Mix" src="_images/VALU_arithmetic_instruction_mix.png" /></p>
+</div>
+<div class="section" id="mfma-arithmetic-instruction-mix">
+<h4>MFMA Arithmetic Instruction Mix<a class="headerlink" href="#mfma-arithmetic-instruction-mix" title="Permalink to this heading"></a></h4>
+<p><img alt="MFMA Arithmetic Instruction Mix" src="_images/MFMA_arithmetic_instruction_mix.png" /></p>
+</div>
+<div class="section" id="vmem-arithmetic-instruction-mix">
+<h4>VMEM Arithmetic Instruction Mix<a class="headerlink" href="#vmem-arithmetic-instruction-mix" title="Permalink to this heading"></a></h4>
+<p><img alt="VMEM Arithmetic Instruction Mix" src="_images/VMEM_arithmetic_intensity_mix.png" /></p>
+</div>
+</div>
+<div class="section" id="compute-unit-compute-pipeline">
+<h3>Compute Unit - Compute Pipeline<a class="headerlink" href="#compute-unit-compute-pipeline" title="Permalink to this heading"></a></h3>
+<div class="section" id="id1">
+<h4>Speed-of-Light<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<p><img alt="Speed-of-Light" src="_images/Comp_pipe_sol.png" /></p>
+</div>
+<div class="section" id="compute-pipeline-stats">
+<h4>Compute Pipeline Stats<a class="headerlink" href="#compute-pipeline-stats" title="Permalink to this heading"></a></h4>
+<p><img alt="Compute Pipeline Stats" src="_images/Compute_pipeline_stats.png" /></p>
+</div>
+<div class="section" id="arithmetic-operations">
+<h4>Arithmetic Operations<a class="headerlink" href="#arithmetic-operations" title="Permalink to this heading"></a></h4>
+<p><img alt="Arithmetic Operations" src="_images/Arithmetic_operations.png" /></p>
+</div>
+<div class="section" id="memory-latencies">
+<h4>Memory Latencies<a class="headerlink" href="#memory-latencies" title="Permalink to this heading"></a></h4>
+<p><img alt="Memory Latencies" src="_images/Memory_latencies.png" /></p>
+</div>
+</div>
+<div class="section" id="local-data-share-lds">
+<h3>Local Data Share (LDS)<a class="headerlink" href="#local-data-share-lds" title="Permalink to this heading"></a></h3>
+<div class="section" id="id2">
+<h4>Speed-of-Light<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
+<p><img alt="Speed-of-Light" src="_images/LDS_sol.png" /></p>
+</div>
+<div class="section" id="lds-stats">
+<h4>LDS Stats<a class="headerlink" href="#lds-stats" title="Permalink to this heading"></a></h4>
+<p><img alt="LDS Stats" src="_images/LDS_stats.png" /></p>
+</div>
+</div>
+<div class="section" id="instruction-cache">
+<h3>Instruction Cache<a class="headerlink" href="#instruction-cache" title="Permalink to this heading"></a></h3>
+<div class="section" id="id3">
+<h4>Speed-of-Light<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<p><img alt="Speed-of-Light" src="_images/Instruc_cache_sol.png" /></p>
+</div>
+<div class="section" id="instruction-cache-stats">
+<h4>Instruction Cache Stats<a class="headerlink" href="#instruction-cache-stats" title="Permalink to this heading"></a></h4>
+<p><img alt="Instruction Cache Stats" src="_images/Instruction_cache_stats.png" /></p>
+</div>
+</div>
+<div class="section" id="scalar-l1d-cache">
+<h3>Scalar L1D Cache<a class="headerlink" href="#scalar-l1d-cache" title="Permalink to this heading"></a></h3>
+<div class="section" id="id4">
+<h4>Speed-of-Light<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<p><img alt="" src="_images/L1D_sol.png" /></p>
+</div>
+<div class="section" id="constant-cache-stats">
+<h4>Constant Cache Stats<a class="headerlink" href="#constant-cache-stats" title="Permalink to this heading"></a></h4>
+<p><img alt="Constant Cache Stats" src="_images/Vec_L1D_cache_accesses.png" /></p>
+</div>
+<div class="section" id="constant-cache-l2-interface">
+<h4>Constant Cache - L2 Interface<a class="headerlink" href="#constant-cache-l2-interface" title="Permalink to this heading"></a></h4>
+<p><img alt="Constant Cache - L2 Interface" src="_images/Constant_cache_l2_interface.png" /></p>
+</div>
+</div>
+<div class="section" id="texture-address-and-texture-data">
+<h3>Texture Address and Texture Data<a class="headerlink" href="#texture-address-and-texture-data" title="Permalink to this heading"></a></h3>
+<div class="section" id="texture-address-ta">
+<h4>Texture Address (TA)<a class="headerlink" href="#texture-address-ta" title="Permalink to this heading"></a></h4>
+<p><img alt="Texture Address" src="_images/Texture_address.png" /></p>
+</div>
+<div class="section" id="texture-data-td">
+<h4>Texture Data (TD)<a class="headerlink" href="#texture-data-td" title="Permalink to this heading"></a></h4>
+<p><img alt="Texture Data" src="_images/Texture_data.png" /></p>
+</div>
+</div>
+<div class="section" id="vector-l1d-cache">
+<h3>Vector L1D Cache<a class="headerlink" href="#vector-l1d-cache" title="Permalink to this heading"></a></h3>
+<div class="section" id="id5">
+<h4>Speed-of-Light<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
+<p><img alt="Speed-of-Light" src="_images/Vec_L1D_cache_sol.png" /></p>
+</div>
+<div class="section" id="vector-l1d-cache-accesses">
+<h4>Vector L1D Cache Accesses<a class="headerlink" href="#vector-l1d-cache-accesses" title="Permalink to this heading"></a></h4>
+<p><img alt="Vector L1D Cache Accesses" src="_images/Vec_L1D_cache_accesses.png" /></p>
+</div>
+<div class="section" id="l1-cache-stalls">
+<h4>L1 Cache Stalls<a class="headerlink" href="#l1-cache-stalls" title="Permalink to this heading"></a></h4>
+<p><img alt="L1 Cache Stalls" src="_images/L1_cache_stalls.png" /></p>
+</div>
+<div class="section" id="l1-l2-transactions">
+<h4>L1 - L2 Transactions<a class="headerlink" href="#l1-l2-transactions" title="Permalink to this heading"></a></h4>
+<p><img alt="L1 - L2 Transactions" src="_images/L1_l2_transactions.png" /></p>
+</div>
+<div class="section" id="l1-utcl1-interface-stats">
+<h4>L1 - UTCL1 Interface Stats<a class="headerlink" href="#l1-utcl1-interface-stats" title="Permalink to this heading"></a></h4>
+<p><img alt="L1 - UTCL1 Interface Stats" src="_images/L1_utcl1_transactions.png" /></p>
+</div>
+</div>
+<div class="section" id="l2-cache">
+<h3>L2 Cache<a class="headerlink" href="#l2-cache" title="Permalink to this heading"></a></h3>
+<div class="section" id="id6">
+<h4>Speed-of-Light<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<p><img alt="Speed-of-Light" src="_images/L2_cache_sol.png" /></p>
+</div>
+<div class="section" id="l2-cache-accesses">
+<h4>L2 Cache Accesses<a class="headerlink" href="#l2-cache-accesses" title="Permalink to this heading"></a></h4>
+<p><img alt="L2 Cache Accesses" src="_images/L2_cache_accesses.png" /></p>
+</div>
+<div class="section" id="l2-ea-transactions">
+<h4>L2 - EA Transactions<a class="headerlink" href="#l2-ea-transactions" title="Permalink to this heading"></a></h4>
+<p><img alt="L2 - EA Transactions" src="_images/L2_ea_transactions.png" /></p>
+</div>
+<div class="section" id="l2-ea-stalls">
+<h4>L2 - EA Stalls<a class="headerlink" href="#l2-ea-stalls" title="Permalink to this heading"></a></h4>
+<p><img alt="L2 - EA Stalls" src="_images/L2_ea_stalls.png" /></p>
+</div>
+</div>
+<div class="section" id="l2-cache-per-channel-performance">
+<h3>L2 Cache Per Channel Performance<a class="headerlink" href="#l2-cache-per-channel-performance" title="Permalink to this heading"></a></h3>
+<div class="section" id="id7">
+<h4>L1-L2 Transactions<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
+<p><img alt="L1-L2 Transactions" src="_images/L1_l2_transactions_per_channel.png" /></p>
+</div>
+<div class="section" id="id8">
+<h4>L2-EA Transactions<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
+<p><img alt="L2-EA Transactions" src="_images/L2_ea_transactions_per_channel.png" /></p>
+</div>
+<div class="section" id="l2-ea-latencies">
+<h4>L2-EA Latencies<a class="headerlink" href="#l2-ea-latencies" title="Permalink to this heading"></a></h4>
+<p><img alt="L2-EA Latencies" src="_images/L2_ea_latencies_per_channel.png" /></p>
+</div>
+<div class="section" id="id9">
+<h4>L2-EA Stalls<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h4>
+<p><img alt="L2-EA Stalls" src="_images/L2_ea_stalls_per_channel.png" /></p>
+</div>
+<div class="section" id="l2-ea-write-stalls">
+<h4>L2-EA Write Stalls<a class="headerlink" href="#l2-ea-write-stalls" title="Permalink to this heading"></a></h4>
+<p><img alt="L2-EA Write Stalls" src="_images/L2_ea_write_stalls_per_channel.png" /></p>
+</div>
+<div class="section" id="l2-ea-write-starvation">
+<h4>L2-EA Write Starvation<a class="headerlink" href="#l2-ea-write-starvation" title="Permalink to this heading"></a></h4>
+<p><img alt="L2-EA Write Starvation" src="_images/L2_ea_write_starvation_per_channel.png" /></p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="performance_analysis.html" class="btn btn-neutral float-left" title="Omniperf Performance Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Audacious Software Group.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

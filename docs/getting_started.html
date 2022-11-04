@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; Omniperf  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Omniperf Performance Analysis" href="performance_analysis.html" />
+    <link rel="prev" title="Omniperf Deployment" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Omniperf
+          </a>
+              <div class="version">
+                1.0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="high_level_design.html">Omniperf High Level Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Omniperf Deployment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modes">Modes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-operations">Basic Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="performance_analysis.html">Omniperf Performance Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grafana_analyzer.html">Omniperf Grafana GUI Analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Omniperf</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/getting_started.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>Launch &amp; Profile the target application with the command line profiler</strong></p>
+<p>The command line profiler launches the target application, calls the rocProfiler API, and collects profile results for the specified kernels, dispatches, and/or ipblock’s.</p>
+<p>To collect the default set of data for all kernels in the target application, launch:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf profile -n vcopy -- ./vcopy <span class="m">1048576</span> <span class="m">256</span>
+</pre></div>
+</div>
+<p>The app runs, each kernel is launched, and profiling results are generated. By default, results are written to ./workloads/&lt;name&gt;. To collect all requested profile information, it may be required to replay kernels multiple times.</p>
+</li>
+<li><p><strong>Customize data collection</strong></p>
+<p>Options are available to specify for which kernels data should be collected.
+<code class="docutils literal notranslate"><span class="pre">-k</span></code>/<code class="docutils literal notranslate"><span class="pre">--kernel</span></code> enables filtering kernels by name. <code class="docutils literal notranslate"><span class="pre">-d</span></code>/<code class="docutils literal notranslate"><span class="pre">--dispatch</span></code> enables filtering based on dispatch ID. <code class="docutils literal notranslate"><span class="pre">-b</span></code>/<code class="docutils literal notranslate"><span class="pre">--ipblocks</span></code> enables profiling on one or more IP Block(s).</p>
+<p>To view available metrics by IP Block you can always use <code class="docutils literal notranslate"><span class="pre">--list-metrics</span></code> to view a list of all available metrics organized by IP Block.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf analyze --list-metrics &lt;sys_arch&gt;
+</pre></div>
+</div>
+<p>Note that filtering can also be applied after the fact, at the analysis stage, however filtering at the profiling level will often speed up your overall profiling run time.</p>
+</li>
+<li><p><strong>Analyze at the command line</strong></p>
+<p>After generating a local output folder (./workloads/&lt;name&gt;), the command line tool can also be used to quickly interface with profiling results. View different metrics derived from your profiled results and get immediate access all metrics organized by IP block.</p>
+<p>If no kernel, dispatch, or ipblock filters are applied at this stage, analysis will be reflective of the entirety of the profiling data.</p>
+<p>To interact with profiling results from a different session, users just provide the workload path.  <code class="docutils literal notranslate"><span class="pre">-p</span></code>/<code class="docutils literal notranslate"><span class="pre">--path</span></code> enables users to analyze existing profiling data in the Omniperf CLI.</p>
+</li>
+<li><p><strong>Analyze in the Grafana GUI</strong></p>
+<p>To conduct a more in-depth analysis of profiling results we recommend users utilize the Omniperf Grafana GUI. To interact with profiling results, users must import their data to the MongoDB instance included in the Omniperf dockerfile.</p>
+<p>To interact with Grafana GUI data, stored in the Omniperf DB, users can enter <em><strong>database</strong></em> mode. For example:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span> $ omniperf database --import <span class="o">[</span>CONNECTION OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<div class="section" id="modes">
+<h3>Modes<a class="headerlink" href="#modes" title="Permalink to this heading"></a></h3>
+<p>Modes change the fundamental behavior of the Omniperf command line tool. Depending on which mode is chosen, different command line options become available.</p>
+<ul>
+<li><p><strong>Profile</strong>: Target application is launched on the local system utilizing AMD’s <a class="reference external" href="https://github.com/ROCm-Developer-Tools/rocprofiler">ROC Profiler</a>. Depending on the profiling options chosen, selected kernels, dispatches, and/or IP Blocks in the application are profiled and results are stored locally in an output folder (./workloads/&lt;name&gt;).</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf profile --help
+</pre></div>
+</div>
+</li>
+<li><p><strong>Analyze</strong>: Profiling data from <code class="docutils literal notranslate"><span class="pre">-p</span></code>/<code class="docutils literal notranslate"><span class="pre">--path</span></code> directory is loaded into the Omniperf CLI analyzer where users have immediate access to profiling results and generated metrics. Metrics are quickly generated from the entirety of your profiled application or a subset you’ve identified through the Omniperf CLI analysis filters.</p>
+<p>To gererate a lightweight GUI interface users can add the <code class="docutils literal notranslate"><span class="pre">--gui</span></code> flag to their analysis command.</p>
+<p>This mode is designed to be a middle ground to the highly detailed Omniperf Grafana GUI and is great for users who want immediate access to an IP Block they’re already familiar with.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf analyze --help
+</pre></div>
+</div>
+</li>
+<li><p><strong>Database</strong>: Our detailed Grafana GUI is built on a MongoDB database. <code class="docutils literal notranslate"><span class="pre">--import</span></code> profiling results to the DB to interact with the workload in Grafana or <code class="docutils literal notranslate"><span class="pre">--remove</span></code> the workload from the DB.</p>
+<p>Connection options will need to be specified. See the <span class="xref myst"><em>Omniperf Performance Analysis</em></span> section for more details on this.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf database --help
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="basic-operations">
+<h2>Basic Operations<a class="headerlink" href="#basic-operations" title="Permalink to this heading"></a></h2>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Operation</p></th>
+<th class="text-left head"><p>Mode</p></th>
+<th class="text-left head"><p>Required Arguments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Profile a workload</p></td>
+<td class="text-left"><p>profile</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">--name</span></code>, <code class="docutils literal notranslate"><span class="pre">--</span> <span class="pre">&lt;profile_cmd&gt;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Standalone roofline analysis</p></td>
+<td class="text-left"><p>profile</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">--name</span></code>, <code class="docutils literal notranslate"><span class="pre">--only-roof</span></code>, <code class="docutils literal notranslate"><span class="pre">--</span> <span class="pre">&lt;profile_cmd&gt;</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Import a workload to database</p></td>
+<td class="text-left"><p>database</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">--import</span></code>, <code class="docutils literal notranslate"><span class="pre">--host</span></code>, <code class="docutils literal notranslate"><span class="pre">--username</span></code>, <code class="docutils literal notranslate"><span class="pre">--workload</span></code>, <code class="docutils literal notranslate"><span class="pre">--team</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Remove a workload from database</p></td>
+<td class="text-left"><p>database</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">--remove</span></code>, <code class="docutils literal notranslate"><span class="pre">--host</span></code>, <code class="docutils literal notranslate"><span class="pre">--username</span></code>, <code class="docutils literal notranslate"><span class="pre">--workload</span></code>, <code class="docutils literal notranslate"><span class="pre">--team</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Interact with profiling results from CLI</p></td>
+<td class="text-left"><p>analyze</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">--path</span></code>, <code class="docutils literal notranslate"><span class="pre">--gui</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Omniperf Deployment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="performance_analysis.html" class="btn btn-neutral float-right" title="Omniperf Performance Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Audacious Software Group.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Omniperf Performance Analysis &mdash; Omniperf  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Omniperf Grafana GUI Analyzer" href="grafana_analyzer.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Omniperf
+          </a>
+              <div class="version">
+                1.0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="high_level_design.html">Omniperf High Level Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Omniperf Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Omniperf Performance Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#workload-compilation">Workload Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#omniperf-profiling">Omniperf Profiling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ip-block-profiling">IP Block Profiling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kernel-filtering">Kernel Filtering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dispatch-filtering">Dispatch Filtering</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#omniperf-grafana-gui-import">Omniperf Grafana GUI Import</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="grafana_analyzer.html">Omniperf Grafana GUI Analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Omniperf</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Omniperf Performance Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/performance_analysis.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="omniperf-performance-analysis">
+<h1>Omniperf Performance Analysis<a class="headerlink" href="#omniperf-performance-analysis" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>The <a class="reference external" href="https://github.com/AMDResearch/omniperf">Omniperf</a> repository comes with a sample GPU compute workload, <em>vcopy</em>. This workload is used throughout the following sections to demonstrate the use of Omniperf in MI GPU performance analysis.</p>
+<p>Unless otherwise noted, the performance analysis is done on the MI200 platform.</p>
+<div class="section" id="workload-compilation">
+<h2>Workload Compilation<a class="headerlink" href="#workload-compilation" title="Permalink to this heading"></a></h2>
+<p><strong>vcopy compilation:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ hipcc vcopy.cpp -o vcopy
+$ ls
+vcopy   vcopy.cpp
+$ ./vcopy <span class="m">1048576</span> <span class="m">256</span>
+Finished allocating vectors on the CPU
+Finished allocating vectors on the GPU
+Finished copying vectors to the GPU
+sw thinks it moved <span class="m">1</span>.000000 KB per wave
+Total threads: <span class="m">1048576</span>, Grid Size: <span class="m">4096</span> block Size:256, Wavefronts:16384:
+Launching the  kernel on the GPU
+Finished executing kernel
+Finished copying the output vector from the GPU to the CPU
+Releasing GPU memory
+Releasing CPU memory
+</pre></div>
+</div>
+</div>
+<div class="section" id="omniperf-profiling">
+<h2>Omniperf Profiling<a class="headerlink" href="#omniperf-profiling" title="Permalink to this heading"></a></h2>
+<p>The <em>omniperf</em> script, availible through the <a class="reference external" href="https://github.com/AMDResearch/omniperf">Omniperf</a> repository, is used to aquire all necessary perfmon data through analysis of compute workloads.</p>
+<p><strong>omniperf help:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf profile --help
+ROC Profiler:  /usr/bin/rocprof
+
+usage:
+
+omniperf profile --name &lt;workload_name&gt; [profile options] [roofline options] -- &lt;profile_cmd&gt;
+
+
+
+-------------------------------------------------------------------------------
+
+Examples:
+
+        omniperf profile -n vcopy_all -- ./vcopy 1048576 256
+
+        omniperf profile -n vcopy_SPI_TD -b SQ TCC -- ./vcopy 1048576 256
+
+        omniperf profile -n vcopy_kernel -k vecCopy -- ./vcopy 1048576 256
+
+        omniperf profile -n vcopy_disp -d 0 -- ./vcopy 1048576 256
+
+        omniperf profile -n vcopy_roof --roof-only -- ./vcopy 1048576 256
+
+-------------------------------------------------------------------------------
+
+
+
+Help:
+  -h, --help                      show this help message and exit
+
+General Options:
+  -v, --version                   show program&#39;s version number and exit
+  -V, --verbose                   Increase output verbosity
+
+Profile Options:
+  -n , --name                                           Assign a name to workload.
+  -p , --path                                           Specify path to save workload.
+                                                        (DEFAULT: /home/colramos/GitHub/omniperf/workloads/&lt;name&gt;)
+  -k  [ ...], --kernel  [ ...]                          Kernel filtering.
+  -b  [ ...], --ipblocks  [ ...]                        IP block filtering:
+                                                           SQ
+                                                           SQC
+                                                           TA
+                                                           TD
+                                                           TCP
+                                                           TCC
+                                                           SPI
+                                                           CPC
+                                                           CPF
+  -d  [ ...], --dispatch  [ ...]                        Dispatch ID filtering.
+  --no-roof                                             Profile without collecting roofline data.
+  -- [ ...]                                             Provide command for profiling after double dash.
+
+Standalone Roofline Options:
+  --roof-only                                           Profile roofline data only.
+  --sort                                                Overlay top kernels or top dispatches: (DEFAULT: kernels)
+                                                           kernels
+                                                           dispatches
+  -m , --mem-level                                      Filter by memory level: (DEFAULT: ALL)
+                                                           HBM
+                                                           L2
+                                                           vL1D
+                                                           LDS
+  --axes  [ ...]                                        Desired axis values for graph. As follows:
+                                                           xmin xmax ymin ymax
+  --device                                              GPU device ID. (DEFAULT: ALL)
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">-k</span></code> &lt;kernel&gt; flag allows for kernel filtering, which is compatible with the current rocprof utility.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">-d</span></code> &lt;dispatch&gt; flag allows for dispatch ID filtering,  which is compatible with the current rocprof utility.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">-b</span></code> &lt;ipblocks&gt; allows system profiling on one or more selected IP blocks to speed up the profiling process. One can gradually incorporate more IP blocks, without overwriting performance data acquired on other IP blocks.</p></li>
+</ul>
+<p>The following sample command profiles the <em>vcopy</em> workload.</p>
+<p><strong>vcopy profiling:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf profile --name vcopy -- ./vcopy <span class="m">1048576</span> <span class="m">256</span>
+ROC Profiler:  /usr/bin/rocprof
+ 
+--------
+Profile only
+--------
+ 
+omniperf ver:  v1.0.3
+Path:  workloads
+Target:  mi200
+Command:  ./vcopy <span class="m">1048576</span> <span class="m">256</span>
+Kernel Selection:  None
+Dispatch Selection:  None
+IP Blocks: All
+RPL: on <span class="s1">&#39;220527_130247&#39;</span> from <span class="s1">&#39;/opt/rocm-5.2.0-9768/rocprofiler&#39;</span> in <span class="s1">&#39;/home/amd/xlu/test&#39;</span>
+RPL: profiling <span class="s1">&#39;&quot;&quot;./vcopy 1048576 256&quot;&quot;&#39;</span>
+RPL: input file <span class="s1">&#39;workloads/vcopy/mi200/perfmon/SQ_IFETCH_LEVEL.txt&#39;</span>
+RPL: output dir <span class="s1">&#39;/tmp/rpl_data_220527_130247_1781699&#39;</span>
+RPL: result dir <span class="s1">&#39;/tmp/rpl_data_220527_130247_1781699/input0_results_220527_130247&#39;</span>
+Finished allocating vectors on the CPU
+ROCProfiler: input from <span class="s2">&quot;/tmp/rpl_data_220527_130247_1781699/input0.xml&quot;</span>
+  <span class="nv">gpu_index</span> <span class="o">=</span>
+  <span class="nv">kernel</span> <span class="o">=</span>
+  <span class="nv">range</span> <span class="o">=</span>
+  <span class="m">6</span> metrics
+    GRBM_COUNT, GRBM_GUI_ACTIVE, SQ_WAVES, SQ_IFETCH, SQ_IFETCH_LEVEL, SQ_ACCUM_PREV_HIRES
+Finished allocating vectors on the GPU
+Finished copying vectors to the GPU
+sw thinks it moved <span class="m">1</span>.000000 KB per wave
+Total threads: <span class="m">1048576</span>, Grid Size: <span class="m">4096</span> block Size:256, Wavefronts:16384:
+Launching the  kernel on the GPU
+Finished executing kernel
+Finished copying the output vector from the GPU to the CPU
+Releasing GPU memory
+Releasing CPU memory
+ 
+... ...
+ROCPRofiler: <span class="m">1</span> contexts collected, output directory /tmp/rpl_data_220527_130317_1787038/input_results_220527_130317
+File <span class="s1">&#39;workloads/vcopy/mi200/timestamps.csv&#39;</span> is generating
+Total detected GPU devices: <span class="m">2</span>
+GPU Device <span class="m">0</span>: Profiling...
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+HBM BW, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:2097152, experiments:100, traffic:8589934592 bytes, duration:6.2 ms, mean:1382.7 GB/sec, <span class="nv">stdev</span><span class="o">=</span><span class="m">2</span>.4 GB/sec
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+L2 BW, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:8192, experiments:100, traffic:687194767360 bytes, duration:157.9 ms, mean:4358.7 GB/sec, <span class="nv">stdev</span><span class="o">=</span><span class="m">4</span>.7 GB/sec
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+L1 BW, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:16384, experiments:100, traffic:26843545600 bytes, duration:3.3 ms, mean:8247.1 GB/sec, <span class="nv">stdev</span><span class="o">=</span><span class="m">5</span>.1 GB/sec
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+LDS BW, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:16384, experiments:100, traffic:33554432000 bytes, duration:2.4 ms, mean:14246.3 GB/sec, <span class="nv">stdev</span><span class="o">=</span><span class="m">29</span>.5 GB/sec
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak FLOPs <span class="o">(</span>FP32<span class="o">)</span>, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:274877906944, duration:14.507 ms, mean:18949.6 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">4</span>.5 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak FLOPs <span class="o">(</span>FP64<span class="o">)</span>, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:137438953472, duration:7.5 ms, mean:18308.197266.1 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">3</span>.6 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak MFMA FLOPs <span class="o">(</span>BF16<span class="o">)</span>, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:2147483648000, duration:14.0 ms, mean:153574.8 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">79</span>.9 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak MFMA FLOPs <span class="o">(</span>F16<span class="o">)</span>, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:2147483648000, duration:14.5 ms, mean:147680.1 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">34</span>.7 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak MFMA FLOPs <span class="o">(</span>F32<span class="o">)</span>, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:536870912000, duration:14.5 ms, mean:37142.1 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">8</span>.4 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak MFMA FLOPs <span class="o">(</span>F64<span class="o">)</span>, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:268435456000, duration:7.3 ms, mean:36919.5 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">14</span>.1 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak MFMA IOPs <span class="o">(</span>I8<span class="o">)</span>, GPU ID: <span class="m">0</span>, workgroupSize:256, workgroups:16384, experiments:100, IOP:2147483648000, duration:14.4 ms, mean:149570.6 GOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">41</span>.7 GOPS
+GPU Device <span class="m">1</span>: Profiling...
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+HBM BW, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:2097152, experiments:100, traffic:8589934592 bytes, duration:6.2 ms, mean:1382.7 GB/sec, <span class="nv">stdev</span><span class="o">=</span><span class="m">2</span>.9 GB/sec
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+L2 BW, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:8192, experiments:100, traffic:687194767360 bytes, duration:157.6 ms, mean:4371.0 GB/sec, <span class="nv">stdev</span><span class="o">=</span><span class="m">4</span>.1 GB/sec
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+L1 BW, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:16384, experiments:100, traffic:26843545600 bytes, duration:3.2 ms, mean:8297.4 GB/sec, <span class="nv">stdev</span><span class="o">=</span><span class="m">11</span>.6 GB/sec
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+LDS BW, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:16384, experiments:100, traffic:33554432000 bytes, duration:1.8 ms, mean:18839.2 GB/sec, <span class="nv">stdev</span><span class="o">=</span><span class="m">44</span>.5 GB/sec
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak FLOPs <span class="o">(</span>FP32<span class="o">)</span>, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:274877906944, duration:14.441 ms, mean:19037.6 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">2</span>.7 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak FLOPs <span class="o">(</span>FP64<span class="o">)</span>, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:137438953472, duration:7.5 ms, mean:18402.255859.1 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">20</span>.1 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak MFMA FLOPs <span class="o">(</span>BF16<span class="o">)</span>, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:2147483648000, duration:13.9 ms, mean:154240.3 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">119</span>.3 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak MFMA FLOPs <span class="o">(</span>F16<span class="o">)</span>, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:2147483648000, duration:14.5 ms, mean:148450.1 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">112</span>.6 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak MFMA FLOPs <span class="o">(</span>F32<span class="o">)</span>, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:536870912000, duration:14.4 ms, mean:37335.2 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">43</span>.1 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak MFMA FLOPs <span class="o">(</span>F64<span class="o">)</span>, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:16384, experiments:100, FLOP:268435456000, duration:7.2 ms, mean:37105.3 GFLOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">39</span>.5 GFLOPS
+ <span class="m">99</span>% <span class="o">[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</span><span class="p">|</span> <span class="o">]</span>
+Peak MFMA IOPs <span class="o">(</span>I8<span class="o">)</span>, GPU ID: <span class="m">1</span>, workgroupSize:256, workgroups:16384, experiments:100, IOP:2147483648000, duration:14.3 ms, mean:150317.8 GOPS, <span class="nv">stdev</span><span class="o">=</span><span class="m">203</span>.5 GOPS
+</pre></div>
+</div>
+<p>At the end of the profiling, all resulting csv files should be located in the SOC specific target directory, e.g., mi200.</p>
+<blockquote>
+<div><p>Note: An SoC parameters file, <em>sysinfo.csv</em>, is also created to reflect the target device settings.</p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ ls workloads/vcopy/mi200/
+total <span class="m">116</span>
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">400</span> May <span class="m">27</span> <span class="m">13</span>:03 SQC_DCACHE_INFLIGHT_LEVEL.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">452</span> May <span class="m">27</span> <span class="m">13</span>:03 SQC_DCACHE_TC_INFLIGHT_LEVEL.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">451</span> May <span class="m">27</span> <span class="m">13</span>:03 SQC_DCACHE_UTCL1_INFLIGHT_LEVEL.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">445</span> May <span class="m">27</span> <span class="m">13</span>:03 SQC_DCACHE_UTCL2_INFLIGHT_LEVEL.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">396</span> May <span class="m">27</span> <span class="m">13</span>:03 SQC_ICACHE_INFLIGHT_LEVEL.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">396</span> May <span class="m">27</span> <span class="m">13</span>:03 SQC_ICACHE_TC_INFLIGHT_LEVEL.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">445</span> May <span class="m">27</span> <span class="m">13</span>:03 SQC_ICACHE_UTCL1_INFLIGHT_LEVEL.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">442</span> May <span class="m">27</span> <span class="m">13</span>:03 SQC_ICACHE_UTCL2_INFLIGHT_LEVEL.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">423</span> May <span class="m">27</span> <span class="m">13</span>:03 SQC_TC_INFLIGHT_LEVEL.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">437</span> May <span class="m">27</span> <span class="m">13</span>:02 SQ_IFETCH_LEVEL.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">374</span> May <span class="m">27</span> <span class="m">13</span>:03 SQ_INST_LEVEL_EXP.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">374</span> May <span class="m">27</span> <span class="m">13</span>:03 SQ_INST_LEVEL_GDS.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">374</span> May <span class="m">27</span> <span class="m">13</span>:02 SQ_INST_LEVEL_LDS.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">392</span> May <span class="m">27</span> <span class="m">13</span>:03 SQ_INST_LEVEL_SMEM.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">392</span> May <span class="m">27</span> <span class="m">13</span>:03 SQ_INST_LEVEL_VMEM.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">516</span> May <span class="m">27</span> <span class="m">13</span>:03 SQ_LEVEL_WAVES.csv
+drwxrwxr-x <span class="m">2</span> amd amd  <span class="m">4096</span> May <span class="m">27</span> <span class="m">13</span>:02 perfmon
+-rw-rw-r-- <span class="m">1</span> amd amd <span class="m">32797</span> May <span class="m">27</span> <span class="m">13</span>:03 pmc_perf.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">958</span> May <span class="m">27</span> <span class="m">13</span>:04 roofline.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">469</span> May <span class="m">27</span> <span class="m">13</span>:03 sysinfo.csv
+-rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">317</span> May <span class="m">27</span> <span class="m">13</span>:03 timestamps.csv
+</pre></div>
+</div>
+<div class="section" id="ip-block-profiling">
+<h3>IP Block Profiling<a class="headerlink" href="#ip-block-profiling" title="Permalink to this heading"></a></h3>
+<p>One can profile a selected IP Block to speed up the profiling process. All profiling results are accumulated in the same target directory, without overwriting those for other IP blocks, hence enabling the incremental profiling and analysis.</p>
+<p>The following example only profiles SQ and TCC, skipping all other IP Blocks.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf profile --name vcopy -b SQ TCC -- ./sample/vcopy <span class="m">1048576</span> <span class="m">256</span>
+ROC Profiler:  /usr/bin/rocprof
+
+--------
+Profile only
+--------
+
+omniperf ver:  v1.0.3
+Path:  workloads
+Target:  mi200
+Command:  ./vcopy <span class="m">1048576</span> <span class="m">256</span>
+Kernel Selection:  None
+Dispatch Selection:  None
+IP Blocks:  <span class="o">[</span><span class="s1">&#39;SQ&#39;</span>, <span class="s1">&#39;TCC&#39;</span><span class="o">]</span>
+fname: pmc_ta_perf: Skipped
+fname: pmc_sq_perf3: Added
+fname: pmc_sqc_icache_perf2: Skipped
+fname: pmc_sqc_dcache_perf2: Skipped
+fname: pmc_sqc_dcache_perf3: Skipped
+fname: pmc_sqc_icache_perf4: Skipped
+fname: pmc_sqc_dcache_perf5: Skipped
+fname: pmc_sqc_dcache_perf4: Skipped
+fname: pmc_cpc_perf: Skipped
+fname: pmc_sqc_icache_perf1: Skipped
+fname: pmc_sq_perf4: Added
+fname: pmc_sqc_icache_perf5: Skipped
+fname: pmc_sq_perf5: Added
+fname: pmc_grbm_perf: Skipped
+fname: pmc_sq_perf8: Added
+fname: pmc_sq_perf2: Added
+fname: pmc_sq_perf6: Added
+fname: pmc_sqc_icache_perf3: Skipped
+fname: pmc_sqc_dcache_perf1: Skipped
+fname: pmc_sq_perf7: Added
+fname: pmc_cpf_perf: Skipped
+fname: pmc_sqc_dcache_perf6: Skipped
+fname: pmc_tcp_perf: Skipped
+fname: pmc_spi_perf: Skipped
+fname: pmc_td_perf: Skipped
+fname: pmc_tcc_perf: Added
+fname: pmc_tcc2_perf: Skipped
+fname: pmc_sq_perf1: Added
+RPL: on <span class="s1">&#39;220527_130730&#39;</span> from <span class="s1">&#39;/opt/rocm-5.2.0-9768/rocprofiler&#39;</span> in <span class="s1">&#39;/home/amd/xlu/test&#39;</span>
+RPL: profiling <span class="s1">&#39;&quot;&quot;./vcopy 1048576 256&quot;&quot;&#39;</span>
+RPL: input file <span class="s1">&#39;workloads/vcopy/mi200/perfmon/SQ_IFETCH_LEVEL.txt&#39;</span>
+RPL: output dir <span class="s1">&#39;/tmp/rpl_data_220527_130730_1788165&#39;</span>
+RPL: result dir <span class="s1">&#39;/tmp/rpl_data_220527_130730_1788165/input0_results_220527_130730&#39;</span>
+Finished allocating vectors on the CPU
+ROCProfiler: input from <span class="s2">&quot;/tmp/rpl_data_220527_130730_1788165/input0.xml&quot;</span>
+ 
+... ...
+ROCPRofiler: <span class="m">1</span> contexts collected, output directory /tmp/rpl_data_220527_130751_1791421/input_results_220527_130751
+File <span class="s1">&#39;workloads/vcopy/mi200/timestamps.csv&#39;</span> is generating
+Total detected GPU devices: <span class="m">2</span>
+GPU Device <span class="m">0</span>: Profiling...
+... ...
+</pre></div>
+</div>
+</div>
+<div class="section" id="kernel-filtering">
+<h3>Kernel Filtering<a class="headerlink" href="#kernel-filtering" title="Permalink to this heading"></a></h3>
+<p>The following example demonstrates profiling on selected kernels:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf profile --name vcopy -k vecCopy -- ./vcopy <span class="m">1048576</span> <span class="m">256</span>
+ROC Profiler:  /usr/bin/rocprof
+ 
+--------
+Profile only
+--------
+ 
+omniperf ver:  v1.0.3
+Path:  workloads
+Target:  mi200
+Command:  ./vcopy <span class="m">1048576</span> <span class="m">256</span>
+Kernel Selection:  <span class="o">[</span><span class="s1">&#39;vecCopy&#39;</span><span class="o">]</span>
+Dispatch Selection:  None
+IP Blocks: All
+RPL: on <span class="s1">&#39;220527_164748&#39;</span> from <span class="s1">&#39;/opt/rocm-5.2.0-9768/rocprofiler&#39;</span> in <span class="s1">&#39;/home/amd/xlu/test&#39;</span>
+RPL: profiling <span class="s1">&#39;&quot;&quot;./vcopy 1048576 256&quot;&quot;&#39;</span>
+RPL: input file <span class="s1">&#39;workloads/vcopy/mi200/perfmon/SQ_IFETCH_LEVEL.txt&#39;</span>
+RPL: output dir <span class="s1">&#39;/tmp/rpl_data_220527_164748_1795414&#39;</span>
+RPL: result dir <span class="s1">&#39;/tmp/rpl_data_220527_164748_1795414/input0_results_220527_164748&#39;</span>
+Finished allocating vectors on the CPU
+ROCProfiler: input from <span class="s2">&quot;/tmp/rpl_data_220527_164748_1795414/input0.xml&quot;</span>
+  <span class="nv">gpu_index</span> <span class="o">=</span>
+  <span class="nv">kernel</span> <span class="o">=</span> vecCopy
+ 
+... ...
+</pre></div>
+</div>
+</div>
+<div class="section" id="dispatch-filtering">
+<h3>Dispatch Filtering<a class="headerlink" href="#dispatch-filtering" title="Permalink to this heading"></a></h3>
+<p>The following example demonstrates profiling on selected dispatches:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf profile --name vcopy -d <span class="m">0</span> -- ./vcopy <span class="m">1048576</span> <span class="m">256</span>
+ROC Profiler:  /usr/bin/rocprof
+ 
+--------
+Profile only
+--------
+ 
+omniperf ver:  v1.0
+Path:  workloads
+Target:  mi200
+Command:  ./vcopy <span class="m">1048576</span> <span class="m">256</span>
+Kernel Selection:  None
+Dispatch Selection:  <span class="o">[</span><span class="s1">&#39;0&#39;</span><span class="o">]</span>
+IP Blocks: All
+... ...
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="omniperf-grafana-gui-import">
+<h2>Omniperf Grafana GUI Import<a class="headerlink" href="#omniperf-grafana-gui-import" title="Permalink to this heading"></a></h2>
+<p>The omniperf database <code class="docutils literal notranslate"><span class="pre">--import</span></code> option imports the raw profiling data to Grafana’s backend MongoDB database. This step is only required for Grafana GUI based performance analysis.</p>
+<p>Each workload is imported to a separate database with the following naming convention:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>omniperf_&lt;team&gt;_&lt;database&gt;_&lt;soc&gt;
+</pre></div>
+</div>
+<p>e.g., omniperf_asw_vcopy_mi200.</p>
+<p>Below is the sample command to import the <em>vcopy</em> profiling data.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf database --help
+ROC Profiler:  /usr/bin/rocprof
+
+usage: 
+                                        
+omniperf database &lt;interaction type&gt; [connection options]
+
+                                        
+
+-------------------------------------------------------------------------------
+                                        
+Examples:
+                                        
+        omniperf database --import -H pavii1 -u amd -t asw -w workloads/vcopy/mi200/
+                                        
+        omniperf database --remove -H pavii1 -u amd -w omniperf_asw_sample_mi200
+                                        
+-------------------------------------------------------------------------------
+
+                                        
+
+Help:
+  -h, --help             show this help message and exit
+
+General Options:
+  -v, --version          show program&#39;s version number and exit
+  -V, --verbose          Increase output verbosity
+
+Interaction Type:
+  -i, --import                                          Import workload to Omniperf DB
+  -r, --remove                                          Remove a workload from Omniperf DB
+
+Connection Options:
+  -H , --host                                           Name or IP address of the server host.
+  -P , --port                                           TCP/IP Port. (DEFAULT: 27018)
+  -u , --username                                       Username for authentication.
+  -p , --password                                       The user&#39;s password. (will be requested later if it&#39;s not set)
+  -t , --team                                           Specify Team prefix.
+  -w , --workload                                       Specify name of workload (to remove) or path to workload (to import)
+  -k , --kernelVerbose                                  Specify Kernel Name verbose level 1-5. 
+                                                        Lower the level, shorter the kernel name. (DEFAULT: 2) (DISABLE: 5)
+</pre></div>
+</div>
+<p><strong>omniperf import for vcopy:</strong></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf database --import -H pavii1 -u amd -t asw -w workloads/vcopy/mi200/
+ROC Profiler:  /usr/bin/rocprof
+ 
+--------
+Import Profiling Results
+--------
+ 
+Pulling data from  /home/amd/xlu/test/workloads/vcopy/mi200
+The directory exists
+Found sysinfo file
+KernelName shortening enabled
+Kernel name verbose level: <span class="m">2</span>
+Password:
+Password recieved
+-- Conversion <span class="p">&amp;</span> Upload in Progress --
+  <span class="m">0</span>%<span class="p">|</span>                                                                                                                                                                                                             <span class="p">|</span> <span class="m">0</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;?, ?it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_IFETCH_LEVEL.csv
+  <span class="m">9</span>%<span class="p">|</span>█████████████████▉                                                                                                                                                                                   <span class="p">|</span> <span class="m">1</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:01,  <span class="m">8</span>.53it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/pmc_perf.csv
+ <span class="m">18</span>%<span class="p">|</span>███████████████████████████████████▊                                                                                                                                                                 <span class="p">|</span> <span class="m">2</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:01,  <span class="m">6</span>.99it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_INST_LEVEL_SMEM.csv
+ <span class="m">27</span>%<span class="p">|</span>█████████████████████████████████████████████████████▋                                                                                                                                               <span class="p">|</span> <span class="m">3</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:01,  <span class="m">7</span>.90it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_LEVEL_WAVES.csv
+ <span class="m">36</span>%<span class="p">|</span>███████████████████████████████████████████████████████████████████████▋                                                                                                                             <span class="p">|</span> <span class="m">4</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00,  <span class="m">8</span>.56it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_INST_LEVEL_LDS.csv
+ <span class="m">45</span>%<span class="p">|</span>█████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                           <span class="p">|</span> <span class="m">5</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00,  <span class="m">9</span>.00it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_INST_LEVEL_VMEM.csv
+ <span class="m">55</span>%<span class="p">|</span>███████████████████████████████████████████████████████████████████████████████████████████████████████████▍                                                                                         <span class="p">|</span> <span class="m">6</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00,  <span class="m">9</span>.24it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/sysinfo.csv
+ <span class="m">64</span>%<span class="p">|</span>█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                                                                       <span class="p">|</span> <span class="m">7</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00,  <span class="m">9</span>.37it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/roofline.csv
+ <span class="m">82</span>%<span class="p">|</span>█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                                   <span class="p">|</span> <span class="m">9</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00, <span class="m">12</span>.60it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/timestamps.csv
+<span class="m">100</span>%<span class="p">|</span>████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████<span class="p">|</span> <span class="m">11</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00, <span class="m">11</span>.05it/s<span class="o">]</span>
+<span class="m">9</span> collections added.
+Workload name uploaded
+-- Complete! --
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="grafana_analyzer.html" class="btn btn-neutral float-right" title="Omniperf Grafana GUI Analyzer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Audacious Software Group.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
