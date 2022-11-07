@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Omniperf Performance Analysis &mdash; Omniperf  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,6 +16,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -74,8 +76,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Omniperf Performance Analysis</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Omniperf Performance Analysis</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/performance_analysis.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -85,7 +87,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="omniperf-performance-analysis">
+  <section id="omniperf-performance-analysis">
 <h1>Omniperf Performance Analysis<a class="headerlink" href="#omniperf-performance-analysis" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
@@ -98,7 +100,7 @@ subdirectory after a normal Omniperf installation, or via the
 sections to demonstrate the use of Omniperf in MI GPU performance
 analysis. Unless otherwise noted, the performance analysis is done on
 the MI200 platform.</p>
-<div class="section" id="workload-compilation">
+<section id="workload-compilation">
 <h2>Workload Compilation<a class="headerlink" href="#workload-compilation" title="Permalink to this heading"></a></h2>
 <p><strong>vcopy compilation:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ hipcc vcopy.cpp -o vcopy
@@ -117,8 +119,8 @@ Releasing GPU memory
 Releasing CPU memory
 </pre></div>
 </div>
-</div>
-<div class="section" id="omniperf-profiling">
+</section>
+<section id="omniperf-profiling">
 <h2>Omniperf Profiling<a class="headerlink" href="#omniperf-profiling" title="Permalink to this heading"></a></h2>
 <p>The <em>omniperf</em> script, availible through the <a class="reference external" href="https://github.com/AMDResearch/omniperf">Omniperf</a> repository, is used to aquire all necessary perfmon data through analysis of compute workloads.</p>
 <p><strong>omniperf help:</strong></p>
@@ -211,7 +213,7 @@ Command:  ./vcopy <span class="m">1048576</span> <span class="m">256</span>
 Kernel Selection:  None
 Dispatch Selection:  None
 IP Blocks: All
-RPL: on <span class="s1">&#39;220527_130247&#39;</span> from <span class="s1">&#39;/opt/rocm-5.2.0-9768/rocprofiler&#39;</span> in <span class="s1">&#39;/home/amd/xlu/test&#39;</span>
+RPL: on <span class="s1">&#39;220527_130247&#39;</span> from <span class="s1">&#39;/opt/rocm-5.2.0-9768/rocprofiler&#39;</span> <span class="k">in</span> <span class="s1">&#39;/home/amd/xlu/test&#39;</span>
 RPL: profiling <span class="s1">&#39;&quot;&quot;./vcopy 1048576 256&quot;&quot;&#39;</span>
 RPL: input file <span class="s1">&#39;workloads/vcopy/mi200/perfmon/SQ_IFETCH_LEVEL.txt&#39;</span>
 RPL: output dir <span class="s1">&#39;/tmp/rpl_data_220527_130247_1781699&#39;</span>
@@ -314,7 +316,7 @@ drwxrwxr-x <span class="m">2</span> amd amd  <span class="m">4096</span> May <sp
 -rw-rw-r-- <span class="m">1</span> amd amd   <span class="m">317</span> May <span class="m">27</span> <span class="m">13</span>:03 timestamps.csv
 </pre></div>
 </div>
-<div class="section" id="ip-block-profiling">
+<section id="ip-block-profiling">
 <h3>IP Block Profiling<a class="headerlink" href="#ip-block-profiling" title="Permalink to this heading"></a></h3>
 <p>One can profile a selected IP Block to speed up the profiling process. All profiling results are accumulated in the same target directory, without overwriting those for other IP blocks, hence enabling the incremental profiling and analysis.</p>
 <p>The following example only profiles SQ and TCC, skipping all other IP Blocks.</p>
@@ -360,7 +362,7 @@ fname: pmc_td_perf: Skipped
 fname: pmc_tcc_perf: Added
 fname: pmc_tcc2_perf: Skipped
 fname: pmc_sq_perf1: Added
-RPL: on <span class="s1">&#39;220527_130730&#39;</span> from <span class="s1">&#39;/opt/rocm-5.2.0-9768/rocprofiler&#39;</span> in <span class="s1">&#39;/home/amd/xlu/test&#39;</span>
+RPL: on <span class="s1">&#39;220527_130730&#39;</span> from <span class="s1">&#39;/opt/rocm-5.2.0-9768/rocprofiler&#39;</span> <span class="k">in</span> <span class="s1">&#39;/home/amd/xlu/test&#39;</span>
 RPL: profiling <span class="s1">&#39;&quot;&quot;./vcopy 1048576 256&quot;&quot;&#39;</span>
 RPL: input file <span class="s1">&#39;workloads/vcopy/mi200/perfmon/SQ_IFETCH_LEVEL.txt&#39;</span>
 RPL: output dir <span class="s1">&#39;/tmp/rpl_data_220527_130730_1788165&#39;</span>
@@ -376,8 +378,8 @@ GPU Device <span class="m">0</span>: Profiling...
 ... ...
 </pre></div>
 </div>
-</div>
-<div class="section" id="kernel-filtering">
+</section>
+<section id="kernel-filtering">
 <h3>Kernel Filtering<a class="headerlink" href="#kernel-filtering" title="Permalink to this heading"></a></h3>
 <p>The following example demonstrates profiling on selected kernels:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf profile --name vcopy -k vecCopy -- ./vcopy <span class="m">1048576</span> <span class="m">256</span>
@@ -394,7 +396,7 @@ Command:  ./vcopy <span class="m">1048576</span> <span class="m">256</span>
 Kernel Selection:  <span class="o">[</span><span class="s1">&#39;vecCopy&#39;</span><span class="o">]</span>
 Dispatch Selection:  None
 IP Blocks: All
-RPL: on <span class="s1">&#39;220527_164748&#39;</span> from <span class="s1">&#39;/opt/rocm-5.2.0-9768/rocprofiler&#39;</span> in <span class="s1">&#39;/home/amd/xlu/test&#39;</span>
+RPL: on <span class="s1">&#39;220527_164748&#39;</span> from <span class="s1">&#39;/opt/rocm-5.2.0-9768/rocprofiler&#39;</span> <span class="k">in</span> <span class="s1">&#39;/home/amd/xlu/test&#39;</span>
 RPL: profiling <span class="s1">&#39;&quot;&quot;./vcopy 1048576 256&quot;&quot;&#39;</span>
 RPL: input file <span class="s1">&#39;workloads/vcopy/mi200/perfmon/SQ_IFETCH_LEVEL.txt&#39;</span>
 RPL: output dir <span class="s1">&#39;/tmp/rpl_data_220527_164748_1795414&#39;</span>
@@ -407,8 +409,8 @@ ROCProfiler: input from <span class="s2">&quot;/tmp/rpl_data_220527_164748_17954
 ... ...
 </pre></div>
 </div>
-</div>
-<div class="section" id="dispatch-filtering">
+</section>
+<section id="dispatch-filtering">
 <h3>Dispatch Filtering<a class="headerlink" href="#dispatch-filtering" title="Permalink to this heading"></a></h3>
 <p>The following example demonstrates profiling on selected dispatches:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf profile --name vcopy -d <span class="m">0</span> -- ./vcopy <span class="m">1048576</span> <span class="m">256</span>
@@ -428,9 +430,9 @@ IP Blocks: All
 ... ...
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="omniperf-grafana-gui-import">
+</section>
+</section>
+<section id="omniperf-grafana-gui-import">
 <h2>Omniperf Grafana GUI Import<a class="headerlink" href="#omniperf-grafana-gui-import" title="Permalink to this heading"></a></h2>
 <p>The omniperf database <code class="docutils literal notranslate"><span class="pre">--import</span></code> option imports the raw profiling data to Grafana’s backend MongoDB database. This step is only required for Grafana GUI based performance analysis.</p>
 <p>Each workload is imported to a separate database with the following naming convention:</p>
@@ -497,7 +499,7 @@ KernelName shortening enabled
 Kernel name verbose level: <span class="m">2</span>
 Password:
 Password recieved
--- Conversion <span class="p">&amp;</span> Upload in Progress --
+-- Conversion <span class="p">&amp;</span> Upload <span class="k">in</span> Progress --
   <span class="m">0</span>%<span class="p">|</span>                                                                                                                                                                                                             <span class="p">|</span> <span class="m">0</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;?, ?it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_IFETCH_LEVEL.csv
   <span class="m">9</span>%<span class="p">|</span>█████████████████▉                                                                                                                                                                                   <span class="p">|</span> <span class="m">1</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:01,  <span class="m">8</span>.53it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/pmc_perf.csv
  <span class="m">18</span>%<span class="p">|</span>███████████████████████████████████▊                                                                                                                                                                 <span class="p">|</span> <span class="m">2</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:01,  <span class="m">6</span>.99it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_INST_LEVEL_SMEM.csv
@@ -513,8 +515,8 @@ Workload name uploaded
 -- Complete! --
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
