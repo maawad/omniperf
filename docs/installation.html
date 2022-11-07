@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Omniperf Deployment &mdash; Omniperf  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +15,6 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -80,8 +78,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Omniperf Deployment</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Omniperf Deployment</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/installation.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -91,7 +89,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="omniperf-deployment">
+  <div class="section" id="omniperf-deployment">
 <h1>Omniperf Deployment<a class="headerlink" href="#omniperf-deployment" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
@@ -112,7 +110,7 @@
 </li>
 </ol>
 <hr class="docutils" />
-<section id="client-side-installation">
+<div class="section" id="client-side-installation">
 <h2>Client-side Installation<a class="headerlink" href="#client-side-installation" title="Permalink to this heading"></a></h2>
 <p>Omniperf requires the following basic software dependencies prior to usage:</p>
 <ul class="simple">
@@ -162,7 +160,7 @@ $ <span class="nb">cd</span> omniperf-v1.0.3
 $ <span class="nb">export</span> <span class="nv">INSTALL_DIR</span><span class="o">=</span>&lt;your-top-level-desired-install-path&gt;
 
 <span class="c1"># install python deps</span>
-$ python3 -m pip install --system -t <span class="si">${</span><span class="nv">INSTALL_DIR</span><span class="si">}</span>/python-libs -r requirements.txt
+$ python3 -m pip install -t <span class="si">${</span><span class="nv">INSTALL_DIR</span><span class="si">}</span>/python-libs -r requirements.txt
 
 <span class="c1"># configure Omniperf for shared install</span>
 $ mkdir build
@@ -185,7 +183,7 @@ do not have write access to the chosen install path.</p>
 modulefiles  <span class="m">1</span>.0.3  python-libs
 </pre></div>
 </div>
-<section id="execution-using-modulefiles">
+<div class="section" id="execution-using-modulefiles">
 <h3>Execution using modulefiles<a class="headerlink" href="#execution-using-modulefiles" title="Permalink to this heading"></a></h3>
 <p>The installation process includes creation of an environment
 modulefile for use with <a class="reference external" href="https://lmod.readthedocs.io">Lmod</a>. On
@@ -209,8 +207,8 @@ omniperf <span class="o">(</span>v1.0.3<span class="o">)</span>
 customize the resulting Omniperf modulefile post-installation to
 include additional module dependencies.</p>
 </div>
-</section>
-<section id="execution-without-modulefiles">
+</div>
+<div class="section" id="execution-without-modulefiles">
 <h3>Execution without modulefiles<a class="headerlink" href="#execution-without-modulefiles" title="Permalink to this heading"></a></h3>
 <p>To use Omniperf without the companion modulefile, update your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>
 settings to enable access to the command-line binary. If you installed Python
@@ -219,17 +217,17 @@ dependencies in a shared location, update your <code class="docutils literal not
 <span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$INSTALL_DIR</span>/python-libs
 </pre></div>
 </div>
-</section>
-<section id="rocprof">
+</div>
+<div class="section" id="rocprof">
 <h3>rocProf<a class="headerlink" href="#rocprof" title="Permalink to this heading"></a></h3>
 <p>Omniperf relies on a rocprof binary during the profiling
 process. Normally the path to this binary will be detected
 automatically, but it can also be overridden via the use of an
 optional <code class="docutils literal notranslate"><span class="pre">ROCPROF</span></code> environment variable.</p>
-</section>
-</section>
+</div>
+</div>
 <hr class="docutils" />
-<section id="omniperf-server-setup">
+<div class="section" id="omniperf-server-setup">
 <h2>Omniperf Server Setup<a class="headerlink" href="#omniperf-server-setup" title="Permalink to this heading"></a></h2>
 <p>Note: Server-side setup is not required to profile or analyze
 performance data from the CLI. It is provided as an additional mechanism to import performance
@@ -237,18 +235,18 @@ data for examination within a detailed <a class="reference external" href="https
 <p>The recommended process for enabling the server-side of Omniperf is to
 use the provided Docker file to build the Grafana and MongoDB
 instance.</p>
-<section id="install-mongodb-utils">
+<div class="section" id="install-mongodb-utils">
 <h3>Install MongoDB Utils<a class="headerlink" href="#install-mongodb-utils" title="Permalink to this heading"></a></h3>
 <p>Omniperf uses <a class="reference external" href="https://www.mongodb.com/docs/database-tools/mongoimport/">mongoimport</a> to upload data to Grafana’s backend database</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget mongodb-database-tools-ubuntu2004-x86_64-100.6.1.deb
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.6.1.deb
 $ sudo apt intall ./mongodb-database-tools-ubuntu2004-x86_64-100.6.1.deb
 </pre></div>
 </div>
 <blockquote>
 <div><p>Find install for alternative distros <a class="reference external" href="https://www.mongodb.com/download-center/database-tools/releases/archive">here</a></p>
 </div></blockquote>
-</section>
-<section id="persist-storage">
+</div>
+<div class="section" id="persist-storage">
 <h3>Persist Storage<a class="headerlink" href="#persist-storage" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo mkdir -p /usr/local/persist <span class="o">&amp;&amp;</span> <span class="nb">cd</span> /usr/local/persist/
 $ sudo mkdir -p grafana-storage mongodb
@@ -256,16 +254,16 @@ $ sudo docker volume create --driver <span class="nb">local</span> --opt <span c
 $ sudo docker volume create --driver <span class="nb">local</span> --opt <span class="nv">type</span><span class="o">=</span>none --opt <span class="nv">device</span><span class="o">=</span>/usr/local/persist/mongodb --opt <span class="nv">o</span><span class="o">=</span><span class="nb">bind</span> grafana-mongo-db
 </pre></div>
 </div>
-</section>
-<section id="build-and-launch">
+</div>
+<div class="section" id="build-and-launch">
 <h3>Build and Launch<a class="headerlink" href="#build-and-launch" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo docker-compose build
 $ sudo docker-compose up -d
 </pre></div>
 </div>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
            </div>
