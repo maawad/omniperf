@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Omniperf  documentation</title>
+  <title>Standalone GUI Analyzer &mdash; Omniperf  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -16,7 +16,7 @@
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
 
@@ -63,8 +63,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Index</li>
+      <li>Standalone GUI Analyzer</li>
       <li class="wy-breadcrumbs-aside">
+            <a href="_sources/stanalone_gui_analyzer.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -72,11 +73,58 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
+  <div class="section" id="standalone-gui-analyzer">
+<h1>Standalone GUI Analyzer<a class="headerlink" href="#standalone-gui-analyzer" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading"></a></h2>
+<p>Omniperf’s standalone GUI analyzer is a lightweight web page that can be generated straight from the command-line. This option is great for users who want immediate access to graphical results without the server-side overhead of the Omniperf’s detailed <a class="reference external" href="https://amdresearch.github.io/omniperf/grafana_analyzer.html#">Grafana interface</a></p>
+<p>The standalone GUI analyzer is a simple Flask web application that uses port forwarding (DEFAULT: 8050) to allow users to view results from their web browser.</p>
+<blockquote>
+<div><p>Because the standalone GUI analyzer uses port forwarding we reccomend users who profile on shared clusters <strong>scp</strong> their results to their personal workstation for analysis.</p>
+</div></blockquote>
+</div>
+<div class="section" id="useage">
+<h2>Useage<a class="headerlink" href="#useage" title="Permalink to this heading"></a></h2>
+<p>To launch the standalone GUI, users will include the <code class="docutils literal notranslate"><span class="pre">--gui</span></code> flag in their analysis command.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>To launch the web application on a port other than 8050 (default)
+use –gui <desired port></p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ omniperf analyze -p workloads/vcopy/mi200/ --gui
 
-<h1 id="index">Index</h1>
+--------
+Analyze
+--------
 
-<div class="genindex-jumpbox">
- 
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app <span class="s1">&#39;omniperf_cli.omniperf_cli&#39;</span> <span class="o">(</span>lazy loading<span class="o">)</span>
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on all addresses <span class="o">(</span><span class="m">0</span>.0.0.0<span class="o">)</span>
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:8050
+ * Running on http://10.228.32.139:8050 <span class="o">(</span>Press CTRL+C to quit<span class="o">)</span>
+</pre></div>
+</div>
+<p>Users can then lauch their web browser of choice and go to http://localhost:8050/ (substituting port if overridden).</p>
+<p><img alt="Standalone GUI Homepage" src="_images/standalone_gui.png" /></p>
+<p>When no filters are applied users will see 5 basic section derived from their application’s profiling data:</p>
+<ol class="arabic simple">
+<li><p>Memory Chart Analysis</p></li>
+<li><p>Empirical Roofline Analysis</p></li>
+<li><p>Top Stats (Top Kernal Statistics)</p></li>
+<li><p>System Info</p></li>
+<li><p>System Speed-of-Light</p></li>
+</ol>
+<p>To dive deeper, use the top drop down menus to isolate a particular kernel(s) or dispatch(s). You’ll then see the webpage updates with metrics specific to the filter you’ve applied.</p>
+<p>Once you’ve applied a filter you’ll also see several additional sections become availible with detailed metrics specific to that area of AMD hardware. These detailed sections mirror the data we display in Omniperf’s <a class="reference external" href="https://amdresearch.github.io/omniperf/grafana_analyzer.html#">Grafana interface</a></p>
+</div>
 </div>
 
 
