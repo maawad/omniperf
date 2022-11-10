@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Omniperf Deployment &mdash; Omniperf  documentation</title>
+  <title>Deployment &mdash; Omniperf  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Getting Started" href="getting_started.html" />
-    <link rel="prev" title="Omniperf High Level Design" href="high_level_design.html" /> 
+    <link rel="prev" title="High Level Design" href="high_level_design.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,15 +43,15 @@
               <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="high_level_design.html">Omniperf High Level Design</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Omniperf Deployment</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="high_level_design.html">High Level Design</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#client-side-installation">Client-side Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#execution-using-modulefiles">Execution using modulefiles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#execution-without-modulefiles">Execution without modulefiles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#rocprof">rocProf</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#omniperf-server-setup">Omniperf Server Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#server-side-setup">Server-side Setup</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#install-mongodb-utils">Install MongoDB Utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#persist-storage">Persist Storage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#build-and-launch">Build and Launch</a></li>
@@ -61,9 +61,9 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="performance_analysis.html">Omniperf Performance Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="standalone_gui_analyzer.html">Standalone GUI Analyzer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="grafana_analyzer.html">Omniperf Grafana GUI Analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_analysis.html">Performance Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standalone_gui_analyzer.html">Web-based GUI Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grafana_analyzer.html">Grafana-based Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
 
@@ -81,7 +81,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Omniperf Deployment</li>
+      <li>Deployment</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/installation.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -91,8 +91,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section class="tex2jax_ignore mathjax_ignore" id="omniperf-deployment">
-<h1>Omniperf Deployment<a class="headerlink" href="#omniperf-deployment" title="Permalink to this headline"></a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="deployment">
+<h1>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
 <p>Omniperf is broken into two installation components:</p>
@@ -229,8 +229,8 @@ optional <code class="docutils literal notranslate"><span class="pre">ROCPROF</s
 </section>
 </section>
 <hr class="docutils" />
-<section id="omniperf-server-setup">
-<h2>Omniperf Server Setup<a class="headerlink" href="#omniperf-server-setup" title="Permalink to this headline"></a></h2>
+<section id="server-side-setup">
+<h2>Server-side Setup<a class="headerlink" href="#server-side-setup" title="Permalink to this headline"></a></h2>
 <p>Note: Server-side setup is not required to profile or analyze
 performance data from the CLI. It is provided as an additional mechanism to import performance
 data for examination within a detailed <a class="reference external" href="https://github.com/grafana/grafana">Grafana</a> GUI.</p>
@@ -301,7 +301,7 @@ $ sudo docker-compose up -d
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="high_level_design.html" class="btn btn-neutral float-left" title="Omniperf High Level Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="high_level_design.html" class="btn btn-neutral float-left" title="High Level Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
