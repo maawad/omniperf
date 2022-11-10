@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Omniperf Deployment &mdash; Omniperf  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -13,7 +14,6 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -91,8 +91,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="omniperf-deployment">
-<h1>Omniperf Deployment<a class="headerlink" href="#omniperf-deployment" title="Permalink to this heading"></a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="omniperf-deployment">
+<h1>Omniperf Deployment<a class="headerlink" href="#omniperf-deployment" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
 <p>Omniperf is broken into two installation components:</p>
@@ -112,8 +112,8 @@
 </li>
 </ol>
 <hr class="docutils" />
-<div class="section" id="client-side-installation">
-<h2>Client-side Installation<a class="headerlink" href="#client-side-installation" title="Permalink to this heading"></a></h2>
+<section id="client-side-installation">
+<h2>Client-side Installation<a class="headerlink" href="#client-side-installation" title="Permalink to this headline"></a></h2>
 <p>Omniperf requires the following basic software dependencies prior to usage:</p>
 <ul class="simple">
 <li><p>Python (&gt;=3.7)</p></li>
@@ -185,8 +185,8 @@ do not have write access to the chosen install path.</p>
 modulefiles  <span class="m">1</span>.0.4-dev  python-libs
 </pre></div>
 </div>
-<div class="section" id="execution-using-modulefiles">
-<h3>Execution using modulefiles<a class="headerlink" href="#execution-using-modulefiles" title="Permalink to this heading"></a></h3>
+<section id="execution-using-modulefiles">
+<h3>Execution using modulefiles<a class="headerlink" href="#execution-using-modulefiles" title="Permalink to this headline"></a></h3>
 <p>The installation process includes creation of an environment
 modulefile for use with <a class="reference external" href="https://lmod.readthedocs.io">Lmod</a>. On
 systems that support Lmod, a user can register the Omniperf modulefile
@@ -209,9 +209,9 @@ omniperf <span class="o">(</span>v1.0.4-dev<span class="o">)</span>
 customize the resulting Omniperf modulefile post-installation to
 include additional module dependencies.</p>
 </div>
-</div>
-<div class="section" id="execution-without-modulefiles">
-<h3>Execution without modulefiles<a class="headerlink" href="#execution-without-modulefiles" title="Permalink to this heading"></a></h3>
+</section>
+<section id="execution-without-modulefiles">
+<h3>Execution without modulefiles<a class="headerlink" href="#execution-without-modulefiles" title="Permalink to this headline"></a></h3>
 <p>To use Omniperf without the companion modulefile, update your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>
 settings to enable access to the command-line binary. If you installed Python
 dependencies in a shared location, update your <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> config as well:</p>
@@ -219,26 +219,26 @@ dependencies in a shared location, update your <code class="docutils literal not
 <span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$INSTALL_DIR</span>/python-libs
 </pre></div>
 </div>
-</div>
-<div class="section" id="rocprof">
-<h3>rocProf<a class="headerlink" href="#rocprof" title="Permalink to this heading"></a></h3>
+</section>
+<section id="rocprof">
+<h3>rocProf<a class="headerlink" href="#rocprof" title="Permalink to this headline"></a></h3>
 <p>Omniperf relies on a rocprof binary during the profiling
 process. Normally the path to this binary will be detected
 automatically, but it can also be overridden via the use of an
 optional <code class="docutils literal notranslate"><span class="pre">ROCPROF</span></code> environment variable.</p>
-</div>
-</div>
+</section>
+</section>
 <hr class="docutils" />
-<div class="section" id="omniperf-server-setup">
-<h2>Omniperf Server Setup<a class="headerlink" href="#omniperf-server-setup" title="Permalink to this heading"></a></h2>
+<section id="omniperf-server-setup">
+<h2>Omniperf Server Setup<a class="headerlink" href="#omniperf-server-setup" title="Permalink to this headline"></a></h2>
 <p>Note: Server-side setup is not required to profile or analyze
 performance data from the CLI. It is provided as an additional mechanism to import performance
 data for examination within a detailed <a class="reference external" href="https://github.com/grafana/grafana">Grafana</a> GUI.</p>
 <p>The recommended process for enabling the server-side of Omniperf is to
 use the provided Docker file to build the Grafana and MongoDB
 instance.</p>
-<div class="section" id="install-mongodb-utils">
-<h3>Install MongoDB Utils<a class="headerlink" href="#install-mongodb-utils" title="Permalink to this heading"></a></h3>
+<section id="install-mongodb-utils">
+<h3>Install MongoDB Utils<a class="headerlink" href="#install-mongodb-utils" title="Permalink to this headline"></a></h3>
 <p>Omniperf uses <a class="reference external" href="https://www.mongodb.com/docs/database-tools/mongoimport/">mongoimport</a> to upload data to Grafana’s backend database. Install for Ubuntu 20.04 is as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.6.1.deb
 $ sudo apt install ./mongodb-database-tools-ubuntu2004-x86_64-100.6.1.deb
@@ -247,18 +247,18 @@ $ sudo apt install ./mongodb-database-tools-ubuntu2004-x86_64-100.6.1.deb
 <blockquote>
 <div><p>Find install for alternative distros <a class="reference external" href="https://www.mongodb.com/download-center/database-tools/releases/archive">here</a></p>
 </div></blockquote>
-</div>
-<div class="section" id="persist-storage">
-<h3>Persist Storage<a class="headerlink" href="#persist-storage" title="Permalink to this heading"></a></h3>
+</section>
+<section id="persist-storage">
+<h3>Persist Storage<a class="headerlink" href="#persist-storage" title="Permalink to this headline"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo mkdir -p /usr/local/persist <span class="o">&amp;&amp;</span> <span class="nb">cd</span> /usr/local/persist/
 $ sudo mkdir -p grafana-storage mongodb
 $ sudo docker volume create --driver <span class="nb">local</span> --opt <span class="nv">type</span><span class="o">=</span>none --opt <span class="nv">device</span><span class="o">=</span>/usr/local/persist/grafana-storage --opt <span class="nv">o</span><span class="o">=</span><span class="nb">bind</span> grafana-storage
 $ sudo docker volume create --driver <span class="nb">local</span> --opt <span class="nv">type</span><span class="o">=</span>none --opt <span class="nv">device</span><span class="o">=</span>/usr/local/persist/mongodb --opt <span class="nv">o</span><span class="o">=</span><span class="nb">bind</span> grafana-mongo-db
 </pre></div>
 </div>
-</div>
-<div class="section" id="build-and-launch">
-<h3>Build and Launch<a class="headerlink" href="#build-and-launch" title="Permalink to this heading"></a></h3>
+</section>
+<section id="build-and-launch">
+<h3>Build and Launch<a class="headerlink" href="#build-and-launch" title="Permalink to this headline"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sudo docker-compose build
 $ sudo docker-compose up -d
 </pre></div>
@@ -266,9 +266,9 @@ $ sudo docker-compose up -d
 <blockquote>
 <div><p>Note that TCP ports for Grafana (4000) and MongoDB (27017) in the docker container are mapped to 14000 and 27018, respectively, on the host side.</p>
 </div></blockquote>
-</div>
-<div class="section" id="setup-grafana-instance">
-<h3>Setup Grafana Instance<a class="headerlink" href="#setup-grafana-instance" title="Permalink to this heading"></a></h3>
+</section>
+<section id="setup-grafana-instance">
+<h3>Setup Grafana Instance<a class="headerlink" href="#setup-grafana-instance" title="Permalink to this headline"></a></h3>
 <p>Once you’ve launced your docker container you should be able to reach Grafana at <strong>http://&lt;host-ip&gt;:1400</strong>. The default login credentials for the first-time Grafana setup are:</p>
 <ul class="simple">
 <li><p>Username: <strong>admin</strong></p></li>
@@ -293,9 +293,9 @@ $ sudo docker-compose up -d
 <p>From <em>Create</em> → <em>Import</em>, (as seen below) upload the dashboard file, <code class="docutils literal notranslate"><span class="pre">/dashboards/Omniperf_v1.0.4-dev_pub.json</span></code>, from the Omniperf tarball.</p>
 <p>Edit both the Dashboard Name and the Unique Identifier (UID) to uniquely identify the dashboard he/she will use. Click Import to finish the process.</p>
 <p><img alt="Import Dashboard" src="_images/import_dashboard.png" /></p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
