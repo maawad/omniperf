@@ -80,7 +80,7 @@ def parse(my_parser):
         "-v", "--version", action="version", version="%(PROG)s (" + VER + ")"
     )
     general_group.add_argument(
-        "-V", "--verbose", help="Increase output verbosity", action="store_true"
+        "-V", "--verbose", help="Increase output verbosity", action="count", default=0
     )
 
     profile_group.add_argument(
@@ -211,8 +211,8 @@ def parse(my_parser):
 
                                         \n\n-------------------------------------------------------------------------------
                                         \nExamples:
-                                        \n\tomniperf database --import -H pavii1 -u amd -t asw -w workloads/vcopy/mi200/
-                                        \n\tomniperf database --remove -H pavii1 -u amd -w omniperf_asw_sample_mi200
+                                        \n\tomniperf database --import -H pavii1 -u temp -t asw -w workloads/vcopy/mi200/
+                                        \n\tomniperf database --remove -H pavii1 -u temp -w omniperf_asw_sample_mi200
                                         \n-------------------------------------------------------------------------------\n
                                         """,
         prog="tool",
@@ -231,7 +231,7 @@ def parse(my_parser):
         "-v", "--version", action="version", version="%(PROG)s (" + VER + ")"
     )
     general_group.add_argument(
-        "-V", "--verbose", help="Increase output verbosity", action="store_true"
+        "-V", "--verbose", help="Increase output verbosity", action="count", default=0
     )
 
     interaction_group.add_argument(
@@ -331,7 +331,7 @@ def parse(my_parser):
         "-v", "--version", action="version", version="%(PROG)s (" + VER + ")"
     )
     general_group.add_argument(
-        "-V", "--verbose", help="Increase output verbosity", action="store_true"
+        "-V", "--verbose", help="Increase output verbosity", action="count", default=0
     )
 
     analyze_group.add_argument(
