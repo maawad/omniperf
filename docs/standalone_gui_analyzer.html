@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Web-based GUI Analysis &mdash; Omniperf  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,6 +13,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -80,12 +80,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section class="tex2jax_ignore mathjax_ignore" id="web-based-gui-analysis">
-<h1>Web-based GUI Analysis<a class="headerlink" href="#web-based-gui-analysis" title="Permalink to this headline"></a></h1>
+  <div class="section" id="web-based-gui-analysis">
+<h1>Web-based GUI Analysis<a class="headerlink" href="#web-based-gui-analysis" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline"></a></h2>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading"></a></h2>
 <p>Omniperf’s standalone GUI analyzer is a lightweight web page that can
 be generated directly from the command-line. This option is provided
 as an alternative for users wanting to explore profiling results
@@ -104,9 +104,9 @@ between the desired web browser host (e.g. login node or remote workstation) and
 required. Alternatively, users may find it more convenient to download
 profiled workloads to perform analysis on their local system.</p>
 </div>
-</section>
-<section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
 <p>To launch the standalone GUI, include the <code class="docutils literal notranslate"><span class="pre">--gui</span></code> flag with your desired analysis command. For example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ omniperf analyze -p workloads/vcopy/mi200/ --gui
 
@@ -118,11 +118,11 @@ Dash is running on http://0.0.0.0:8050/
 
  * Serving Flask app <span class="s1">&#39;omniperf_cli.omniperf_cli&#39;</span> <span class="o">(</span>lazy loading<span class="o">)</span>
  * Environment: production
-   WARNING: This is a development server. Do not use it <span class="k">in</span> a production deployment.
+   WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
  * Debug mode: off
  * Running on all addresses <span class="o">(</span><span class="m">0</span>.0.0.0<span class="o">)</span>
-   WARNING: This is a development server. Do not use it <span class="k">in</span> a production deployment.
+   WARNING: This is a development server. Do not use it in a production deployment.
  * Running on http://127.0.0.1:8050
  * Running on http://10.228.32.139:8050 <span class="o">(</span>Press CTRL+C to quit<span class="o">)</span>
 </pre></div>
@@ -151,8 +151,8 @@ sections become available with detailed metrics specific to that area
 of AMD hardware. These detailed sections mirror the data displayed in
 Omniperf’s <a class="reference external" href="https://amdresearch.github.io/omniperf/grafana_analyzer.html#">Grafana
 interface</a>.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -182,7 +182,18 @@ interface</a>.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C5DYLCE9ED"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-C5DYLCE9ED', {
+          'anonymize_ip': false,
+      });
+    </script> 
 
 </body>
 </html>

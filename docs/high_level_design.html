@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>High Level Design &mdash; Omniperf  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,6 +13,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -78,8 +78,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section class="tex2jax_ignore mathjax_ignore" id="high-level-design">
-<h1>High Level Design<a class="headerlink" href="#high-level-design" title="Permalink to this headline"></a></h1>
+  <div class="section" id="high-level-design">
+<h1>High Level Design<a class="headerlink" href="#high-level-design" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
 <p>The <a class="reference external" href="https://github.com/AMDResearch/omniperf">Omniperf</a> Tool is architecturally composed of three major components, as shown in the following figure.</p>
@@ -94,7 +94,7 @@
 <li><p><strong>Omniperf Standalone GUI Analyzer</strong>: A standalone GUI is provided to enable performance analysis without importing data into the backend database.</p></li>
 </ul>
 <p><img alt="Omniperf Architectual Diagram" src="_images/omniperf_architecture.png" /></p>
-</section>
+</div>
 
 
            </div>
@@ -124,7 +124,18 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C5DYLCE9ED"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-C5DYLCE9ED', {
+          'anonymize_ip': false,
+      });
+    </script> 
 
 </body>
 </html>

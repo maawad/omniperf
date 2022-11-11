@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Grafana-based Analysis &mdash; Omniperf  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,6 +13,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -165,12 +165,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section class="tex2jax_ignore mathjax_ignore" id="grafana-based-analysis">
-<h1>Grafana-based Analysis<a class="headerlink" href="#grafana-based-analysis" title="Permalink to this headline"></a></h1>
+  <div class="section" id="grafana-based-analysis">
+<h1>Grafana-based Analysis<a class="headerlink" href="#grafana-based-analysis" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline"></a></h2>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading"></a></h2>
 <p>The Omniperf Grafana GUI Analyzer supports the following features to facilitate MI GPU performance profiling and analysis:</p>
 <ul class="simple">
 <li><p>System and IP-Block Speed-of-Light (SOL)</p></li>
@@ -190,12 +190,12 @@
 </ul>
 </li>
 </ul>
-<section id="speed-of-light">
-<h3>Speed-of-Light<a class="headerlink" href="#speed-of-light" title="Permalink to this headline"></a></h3>
+<div class="section" id="speed-of-light">
+<h3>Speed-of-Light<a class="headerlink" href="#speed-of-light" title="Permalink to this heading"></a></h3>
 <p>Speed-of-light panels are provided at both the system and per IP block level to help diagnosis performance bottlenecks. The performance numbers of the workload under testing are compared to the theoretical maximum, (e.g. floating point operations, bandwidth, cache hit rate, etc.), to indicate the available room to further utilize the hardware capability.</p>
-</section>
-<section id="multi-normalization">
-<h3>Multi Normalization<a class="headerlink" href="#multi-normalization" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="multi-normalization">
+<h3>Multi Normalization<a class="headerlink" href="#multi-normalization" title="Permalink to this heading"></a></h3>
 <p>Multiple performance number normalizations are provided to allow performance inspection within both HW and SW context. The following normalizations are permitted:</p>
 <ul class="simple">
 <li><p>per cycle</p></li>
@@ -203,9 +203,9 @@
 <li><p>per kernel</p></li>
 <li><p>per second</p></li>
 </ul>
-</section>
-<section id="baseline-comparison">
-<h3>Baseline Comparison<a class="headerlink" href="#baseline-comparison" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="baseline-comparison">
+<h3>Baseline Comparison<a class="headerlink" href="#baseline-comparison" title="Permalink to this heading"></a></h3>
 <p>Omniperf enables baseline comparison to allow checking A/B effect. The current release limits the baseline comparison to the same SoC. Cross comparison between SoCs is in development.</p>
 <p>For both the Current Workload and the Baseline Workload, one can independently setup the following filters to allow fine grained comparions:</p>
 <ul class="simple">
@@ -215,34 +215,34 @@
 <li><p>Dispatch ID filtering (Regex filtering)</p></li>
 <li><p>Omniperf Panels (multi selection)</p></li>
 </ul>
-</section>
-<section id="regex-based-dispatch-id-filtering">
-<h3>Regex based Dispatch ID filtering<a class="headerlink" href="#regex-based-dispatch-id-filtering" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="regex-based-dispatch-id-filtering">
+<h3>Regex based Dispatch ID filtering<a class="headerlink" href="#regex-based-dispatch-id-filtering" title="Permalink to this heading"></a></h3>
 <p>This release enables regex based dispatch ID filtering to flexibly choose the kernel invocations. One may refer to <a class="reference external" href="https://3widgets.com/">Regex Numeric Range Generator</a>, to generate typical number ranges.</p>
 <p>For example, if one wants to inspect Dispatch Range from 17 to 48, inclusive, the corresponding regex is : <strong>(1[7-9]|[23]\d|4[0-8])</strong>. The generated express can be copied over for filtering.</p>
-</section>
-<section id="incremental-profiling">
-<h3>Incremental Profiling<a class="headerlink" href="#incremental-profiling" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="incremental-profiling">
+<h3>Incremental Profiling<a class="headerlink" href="#incremental-profiling" title="Permalink to this heading"></a></h3>
 <p>Omniperf supports incremental profiling to significantly speed up performance analysis.</p>
 <blockquote>
 <div><p>Refer to <a class="reference external" href="https://amdresearch.github.io/omniperf/performance_analysis.html#ip-block-profiling"><em>IP Block profiling</em></a> section for this command.</p>
 </div></blockquote>
 <p>By default, the entire application is profiled to collect perfmon counter for all IP blocks, giving a system level view of where the workload stands in terms of performance optimization opportunities and bottlenecks.</p>
 <p>After that one may focus on only a few IP blocks, (e.g., L1 Cache or LDS) to closely check the effect of software optimizations, without performing application replay for all other IP Blocks. This saves lots of compute time. In addition, the prior profiling results for other IP blocks are not overwritten. Instead, they can be merged during the import to piece together the system view.</p>
-</section>
-<section id="color-coding">
-<h3>Color Coding<a class="headerlink" href="#color-coding" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="color-coding">
+<h3>Color Coding<a class="headerlink" href="#color-coding" title="Permalink to this heading"></a></h3>
 <p>The uniform color coding is applied to most visualizations (bars, table, diagrams etc). Typically, Yellow color means over 50%, while Red color mean over 90% percent, for easy inspection.</p>
-</section>
-<section id="global-variables-and-configurations">
-<h3>Global Variables and Configurations<a class="headerlink" href="#global-variables-and-configurations" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="global-variables-and-configurations">
+<h3>Global Variables and Configurations<a class="headerlink" href="#global-variables-and-configurations" title="Permalink to this heading"></a></h3>
 <p><img alt="Grafana GUI Global Variables" src="_images/global_variables.png" /></p>
-</section>
-</section>
-<section id="omniperf-panels">
-<h2>Omniperf Panels<a class="headerlink" href="#omniperf-panels" title="Permalink to this headline"></a></h2>
-<section id="overview">
-<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h3>
+</div>
+</div>
+<div class="section" id="omniperf-panels">
+<h2>Omniperf Panels<a class="headerlink" href="#omniperf-panels" title="Permalink to this heading"></a></h2>
+<div class="section" id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h3>
 <p>There are currently 18 main panel categories available for analyzing the compute workload performance. Each category contains several panels for close inspection of the system performance.</p>
 <ul class="simple">
 <li><p>Kernel Statistics</p>
@@ -371,214 +371,214 @@
 </li>
 </ul>
 <p>Most panels are designed around a specific IP block to thoroughly understand its behavior. Additional panels, including custom panels, could also be added to aid the performance analysis.</p>
-</section>
-<section id="system-info-panel">
-<h3>System Info Panel<a class="headerlink" href="#system-info-panel" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="system-info-panel">
+<h3>System Info Panel<a class="headerlink" href="#system-info-panel" title="Permalink to this heading"></a></h3>
 <p><img alt="System Info Panel" src="_images/System_info_panel.png" /></p>
-</section>
-<section id="kernel-statistics">
-<h3>Kernel Statistics<a class="headerlink" href="#kernel-statistics" title="Permalink to this headline"></a></h3>
-<section id="kernel-time-histogram">
-<h4>Kernel Time Histogram<a class="headerlink" href="#kernel-time-histogram" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="kernel-statistics">
+<h3>Kernel Statistics<a class="headerlink" href="#kernel-statistics" title="Permalink to this heading"></a></h3>
+<div class="section" id="kernel-time-histogram">
+<h4>Kernel Time Histogram<a class="headerlink" href="#kernel-time-histogram" title="Permalink to this heading"></a></h4>
 <p><img alt="Kernel Time Histogram" src="_images/Kernel_time_histogram.png" /></p>
-</section>
-<section id="top-bottleneck-kernels">
-<h4>Top Bottleneck Kernels<a class="headerlink" href="#top-bottleneck-kernels" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="top-bottleneck-kernels">
+<h4>Top Bottleneck Kernels<a class="headerlink" href="#top-bottleneck-kernels" title="Permalink to this heading"></a></h4>
 <p><img alt="Top Bottleneck Kernels" src="_images/Top_bottleneck_kernels.png" /></p>
-</section>
-<section id="top-bottleneck-dispatches">
-<h4>Top Bottleneck Dispatches<a class="headerlink" href="#top-bottleneck-dispatches" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="top-bottleneck-dispatches">
+<h4>Top Bottleneck Dispatches<a class="headerlink" href="#top-bottleneck-dispatches" title="Permalink to this heading"></a></h4>
 <p><img alt="Top Bottleneck Dispatches" src="_images/Top_bottleneck_dispatches.png" /></p>
-</section>
-<section id="current-and-baseline-dispatch-ids-filtered">
-<h4>Current and Baseline Dispatch IDs (Filtered)<a class="headerlink" href="#current-and-baseline-dispatch-ids-filtered" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="current-and-baseline-dispatch-ids-filtered">
+<h4>Current and Baseline Dispatch IDs (Filtered)<a class="headerlink" href="#current-and-baseline-dispatch-ids-filtered" title="Permalink to this heading"></a></h4>
 <p><img alt="Current and Baseline Dispatch IDs" src="_images/Current_and_baseline_dispatch_ids.png" /></p>
-</section>
-</section>
-<section id="system-speed-of-light">
-<h3>System Speed-of-Light<a class="headerlink" href="#system-speed-of-light" title="Permalink to this headline"></a></h3>
+</div>
+</div>
+<div class="section" id="system-speed-of-light">
+<h3>System Speed-of-Light<a class="headerlink" href="#system-speed-of-light" title="Permalink to this heading"></a></h3>
 <p><img alt="System Speed-of-Light" src="_images/System_speed_of_light.png" /></p>
-</section>
-<section id="memory-chart-analysis">
-<h3>Memory Chart Analysis<a class="headerlink" href="#memory-chart-analysis" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="memory-chart-analysis">
+<h3>Memory Chart Analysis<a class="headerlink" href="#memory-chart-analysis" title="Permalink to this heading"></a></h3>
 <blockquote>
 <div><p>Note: The Memory Chart Analysis support multiple normalizations. Due to the space limit, all transactions, when normalized to per-sec, default to unit of Billion transactions per second.</p>
 </div></blockquote>
 <p><img alt="Memory Chart Analysis" src="_images/Memory_chart_analysis.png" /></p>
-</section>
-<section id="roofline-analysis">
-<h3>Roofline Analysis<a class="headerlink" href="#roofline-analysis" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="roofline-analysis">
+<h3>Roofline Analysis<a class="headerlink" href="#roofline-analysis" title="Permalink to this heading"></a></h3>
 <p><img alt="Roofline Analysis" src="_images/Roofline_analysis.png" /></p>
-</section>
-<section id="command-processor">
-<h3>Command Processor<a class="headerlink" href="#command-processor" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="command-processor">
+<h3>Command Processor<a class="headerlink" href="#command-processor" title="Permalink to this heading"></a></h3>
 <p><img alt="Command Processor" src="_images/Command_processor.png" /></p>
-</section>
-<section id="shader-processing-input-spi">
-<h3>Shader Processing Input (SPI)<a class="headerlink" href="#shader-processing-input-spi" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="shader-processing-input-spi">
+<h3>Shader Processing Input (SPI)<a class="headerlink" href="#shader-processing-input-spi" title="Permalink to this heading"></a></h3>
 <p><img alt="Shader Processing Input" src="_images/Shader_processing_input.png" /></p>
-</section>
-<section id="wavefront-launch">
-<h3>Wavefront Launch<a class="headerlink" href="#wavefront-launch" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="wavefront-launch">
+<h3>Wavefront Launch<a class="headerlink" href="#wavefront-launch" title="Permalink to this heading"></a></h3>
 <p><img alt="Wavefront Launch" src="_images/Wavefront_launch.png" /></p>
-</section>
-<section id="compute-unit-instruction-mix">
-<h3>Compute Unit - Instruction Mix<a class="headerlink" href="#compute-unit-instruction-mix" title="Permalink to this headline"></a></h3>
-<section id="instruction-mix">
-<h4>Instruction Mix<a class="headerlink" href="#instruction-mix" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="compute-unit-instruction-mix">
+<h3>Compute Unit - Instruction Mix<a class="headerlink" href="#compute-unit-instruction-mix" title="Permalink to this heading"></a></h3>
+<div class="section" id="instruction-mix">
+<h4>Instruction Mix<a class="headerlink" href="#instruction-mix" title="Permalink to this heading"></a></h4>
 <p><img alt="Instruction Mix" src="_images/Instruction_mix.png" /></p>
-</section>
-<section id="valu-arithmetic-instruction-mix">
-<h4>VALU Arithmetic Instruction Mix<a class="headerlink" href="#valu-arithmetic-instruction-mix" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="valu-arithmetic-instruction-mix">
+<h4>VALU Arithmetic Instruction Mix<a class="headerlink" href="#valu-arithmetic-instruction-mix" title="Permalink to this heading"></a></h4>
 <p><img alt="VALU Arithmetic Instruction Mix" src="_images/VALU_arithmetic_instruction_mix.png" /></p>
-</section>
-<section id="mfma-arithmetic-instruction-mix">
-<h4>MFMA Arithmetic Instruction Mix<a class="headerlink" href="#mfma-arithmetic-instruction-mix" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="mfma-arithmetic-instruction-mix">
+<h4>MFMA Arithmetic Instruction Mix<a class="headerlink" href="#mfma-arithmetic-instruction-mix" title="Permalink to this heading"></a></h4>
 <p><img alt="MFMA Arithmetic Instruction Mix" src="_images/MFMA_arithmetic_instruction_mix.png" /></p>
-</section>
-<section id="vmem-arithmetic-instruction-mix">
-<h4>VMEM Arithmetic Instruction Mix<a class="headerlink" href="#vmem-arithmetic-instruction-mix" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="vmem-arithmetic-instruction-mix">
+<h4>VMEM Arithmetic Instruction Mix<a class="headerlink" href="#vmem-arithmetic-instruction-mix" title="Permalink to this heading"></a></h4>
 <p><img alt="VMEM Arithmetic Instruction Mix" src="_images/VMEM_arithmetic_intensity_mix.png" /></p>
-</section>
-</section>
-<section id="compute-unit-compute-pipeline">
-<h3>Compute Unit - Compute Pipeline<a class="headerlink" href="#compute-unit-compute-pipeline" title="Permalink to this headline"></a></h3>
-<section id="id1">
-<h4>Speed-of-Light<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h4>
+</div>
+</div>
+<div class="section" id="compute-unit-compute-pipeline">
+<h3>Compute Unit - Compute Pipeline<a class="headerlink" href="#compute-unit-compute-pipeline" title="Permalink to this heading"></a></h3>
+<div class="section" id="id1">
+<h4>Speed-of-Light<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
 <p><img alt="Speed-of-Light" src="_images/Comp_pipe_sol.png" /></p>
-</section>
-<section id="compute-pipeline-stats">
-<h4>Compute Pipeline Stats<a class="headerlink" href="#compute-pipeline-stats" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="compute-pipeline-stats">
+<h4>Compute Pipeline Stats<a class="headerlink" href="#compute-pipeline-stats" title="Permalink to this heading"></a></h4>
 <p><img alt="Compute Pipeline Stats" src="_images/Compute_pipeline_stats.png" /></p>
-</section>
-<section id="arithmetic-operations">
-<h4>Arithmetic Operations<a class="headerlink" href="#arithmetic-operations" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="arithmetic-operations">
+<h4>Arithmetic Operations<a class="headerlink" href="#arithmetic-operations" title="Permalink to this heading"></a></h4>
 <p><img alt="Arithmetic Operations" src="_images/Arithmetic_operations.png" /></p>
-</section>
-<section id="memory-latencies">
-<h4>Memory Latencies<a class="headerlink" href="#memory-latencies" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="memory-latencies">
+<h4>Memory Latencies<a class="headerlink" href="#memory-latencies" title="Permalink to this heading"></a></h4>
 <p><img alt="Memory Latencies" src="_images/Memory_latencies.png" /></p>
-</section>
-</section>
-<section id="local-data-share-lds">
-<h3>Local Data Share (LDS)<a class="headerlink" href="#local-data-share-lds" title="Permalink to this headline"></a></h3>
-<section id="id2">
-<h4>Speed-of-Light<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h4>
+</div>
+</div>
+<div class="section" id="local-data-share-lds">
+<h3>Local Data Share (LDS)<a class="headerlink" href="#local-data-share-lds" title="Permalink to this heading"></a></h3>
+<div class="section" id="id2">
+<h4>Speed-of-Light<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
 <p><img alt="Speed-of-Light" src="_images/LDS_sol.png" /></p>
-</section>
-<section id="lds-stats">
-<h4>LDS Stats<a class="headerlink" href="#lds-stats" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="lds-stats">
+<h4>LDS Stats<a class="headerlink" href="#lds-stats" title="Permalink to this heading"></a></h4>
 <p><img alt="LDS Stats" src="_images/LDS_stats.png" /></p>
-</section>
-</section>
-<section id="instruction-cache">
-<h3>Instruction Cache<a class="headerlink" href="#instruction-cache" title="Permalink to this headline"></a></h3>
-<section id="id3">
-<h4>Speed-of-Light<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h4>
+</div>
+</div>
+<div class="section" id="instruction-cache">
+<h3>Instruction Cache<a class="headerlink" href="#instruction-cache" title="Permalink to this heading"></a></h3>
+<div class="section" id="id3">
+<h4>Speed-of-Light<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
 <p><img alt="Speed-of-Light" src="_images/Instruc_cache_sol.png" /></p>
-</section>
-<section id="instruction-cache-stats">
-<h4>Instruction Cache Stats<a class="headerlink" href="#instruction-cache-stats" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="instruction-cache-stats">
+<h4>Instruction Cache Stats<a class="headerlink" href="#instruction-cache-stats" title="Permalink to this heading"></a></h4>
 <p><img alt="Instruction Cache Stats" src="_images/Instruction_cache_stats.png" /></p>
-</section>
-</section>
-<section id="scalar-l1d-cache">
-<h3>Scalar L1D Cache<a class="headerlink" href="#scalar-l1d-cache" title="Permalink to this headline"></a></h3>
-<section id="id4">
-<h4>Speed-of-Light<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h4>
+</div>
+</div>
+<div class="section" id="scalar-l1d-cache">
+<h3>Scalar L1D Cache<a class="headerlink" href="#scalar-l1d-cache" title="Permalink to this heading"></a></h3>
+<div class="section" id="id4">
+<h4>Speed-of-Light<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
 <p><img alt="" src="_images/L1D_sol.png" /></p>
-</section>
-<section id="constant-cache-stats">
-<h4>Constant Cache Stats<a class="headerlink" href="#constant-cache-stats" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="constant-cache-stats">
+<h4>Constant Cache Stats<a class="headerlink" href="#constant-cache-stats" title="Permalink to this heading"></a></h4>
 <p><img alt="Constant Cache Stats" src="_images/Vec_L1D_cache_accesses.png" /></p>
-</section>
-<section id="constant-cache-l2-interface">
-<h4>Constant Cache - L2 Interface<a class="headerlink" href="#constant-cache-l2-interface" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="constant-cache-l2-interface">
+<h4>Constant Cache - L2 Interface<a class="headerlink" href="#constant-cache-l2-interface" title="Permalink to this heading"></a></h4>
 <p><img alt="Constant Cache - L2 Interface" src="_images/Constant_cache_l2_interface.png" /></p>
-</section>
-</section>
-<section id="texture-address-and-texture-data">
-<h3>Texture Address and Texture Data<a class="headerlink" href="#texture-address-and-texture-data" title="Permalink to this headline"></a></h3>
-<section id="texture-address-ta">
-<h4>Texture Address (TA)<a class="headerlink" href="#texture-address-ta" title="Permalink to this headline"></a></h4>
+</div>
+</div>
+<div class="section" id="texture-address-and-texture-data">
+<h3>Texture Address and Texture Data<a class="headerlink" href="#texture-address-and-texture-data" title="Permalink to this heading"></a></h3>
+<div class="section" id="texture-address-ta">
+<h4>Texture Address (TA)<a class="headerlink" href="#texture-address-ta" title="Permalink to this heading"></a></h4>
 <p><img alt="Texture Address" src="_images/Texture_address.png" /></p>
-</section>
-<section id="texture-data-td">
-<h4>Texture Data (TD)<a class="headerlink" href="#texture-data-td" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="texture-data-td">
+<h4>Texture Data (TD)<a class="headerlink" href="#texture-data-td" title="Permalink to this heading"></a></h4>
 <p><img alt="Texture Data" src="_images/Texture_data.png" /></p>
-</section>
-</section>
-<section id="vector-l1d-cache">
-<h3>Vector L1D Cache<a class="headerlink" href="#vector-l1d-cache" title="Permalink to this headline"></a></h3>
-<section id="id5">
-<h4>Speed-of-Light<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h4>
+</div>
+</div>
+<div class="section" id="vector-l1d-cache">
+<h3>Vector L1D Cache<a class="headerlink" href="#vector-l1d-cache" title="Permalink to this heading"></a></h3>
+<div class="section" id="id5">
+<h4>Speed-of-Light<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
 <p><img alt="Speed-of-Light" src="_images/Vec_L1D_cache_sol.png" /></p>
-</section>
-<section id="vector-l1d-cache-accesses">
-<h4>Vector L1D Cache Accesses<a class="headerlink" href="#vector-l1d-cache-accesses" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="vector-l1d-cache-accesses">
+<h4>Vector L1D Cache Accesses<a class="headerlink" href="#vector-l1d-cache-accesses" title="Permalink to this heading"></a></h4>
 <p><img alt="Vector L1D Cache Accesses" src="_images/Vec_L1D_cache_accesses.png" /></p>
-</section>
-<section id="l1-cache-stalls">
-<h4>L1 Cache Stalls<a class="headerlink" href="#l1-cache-stalls" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="l1-cache-stalls">
+<h4>L1 Cache Stalls<a class="headerlink" href="#l1-cache-stalls" title="Permalink to this heading"></a></h4>
 <p><img alt="L1 Cache Stalls" src="_images/L1_cache_stalls.png" /></p>
-</section>
-<section id="l1-l2-transactions">
-<h4>L1 - L2 Transactions<a class="headerlink" href="#l1-l2-transactions" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="l1-l2-transactions">
+<h4>L1 - L2 Transactions<a class="headerlink" href="#l1-l2-transactions" title="Permalink to this heading"></a></h4>
 <p><img alt="L1 - L2 Transactions" src="_images/L1_l2_transactions.png" /></p>
-</section>
-<section id="l1-utcl1-interface-stats">
-<h4>L1 - UTCL1 Interface Stats<a class="headerlink" href="#l1-utcl1-interface-stats" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="l1-utcl1-interface-stats">
+<h4>L1 - UTCL1 Interface Stats<a class="headerlink" href="#l1-utcl1-interface-stats" title="Permalink to this heading"></a></h4>
 <p><img alt="L1 - UTCL1 Interface Stats" src="_images/L1_utcl1_transactions.png" /></p>
-</section>
-</section>
-<section id="l2-cache">
-<h3>L2 Cache<a class="headerlink" href="#l2-cache" title="Permalink to this headline"></a></h3>
-<section id="id6">
-<h4>Speed-of-Light<a class="headerlink" href="#id6" title="Permalink to this headline"></a></h4>
+</div>
+</div>
+<div class="section" id="l2-cache">
+<h3>L2 Cache<a class="headerlink" href="#l2-cache" title="Permalink to this heading"></a></h3>
+<div class="section" id="id6">
+<h4>Speed-of-Light<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
 <p><img alt="Speed-of-Light" src="_images/L2_cache_sol.png" /></p>
-</section>
-<section id="l2-cache-accesses">
-<h4>L2 Cache Accesses<a class="headerlink" href="#l2-cache-accesses" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="l2-cache-accesses">
+<h4>L2 Cache Accesses<a class="headerlink" href="#l2-cache-accesses" title="Permalink to this heading"></a></h4>
 <p><img alt="L2 Cache Accesses" src="_images/L2_cache_accesses.png" /></p>
-</section>
-<section id="l2-ea-transactions">
-<h4>L2 - EA Transactions<a class="headerlink" href="#l2-ea-transactions" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="l2-ea-transactions">
+<h4>L2 - EA Transactions<a class="headerlink" href="#l2-ea-transactions" title="Permalink to this heading"></a></h4>
 <p><img alt="L2 - EA Transactions" src="_images/L2_ea_transactions.png" /></p>
-</section>
-<section id="l2-ea-stalls">
-<h4>L2 - EA Stalls<a class="headerlink" href="#l2-ea-stalls" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="l2-ea-stalls">
+<h4>L2 - EA Stalls<a class="headerlink" href="#l2-ea-stalls" title="Permalink to this heading"></a></h4>
 <p><img alt="L2 - EA Stalls" src="_images/L2_ea_stalls.png" /></p>
-</section>
-</section>
-<section id="l2-cache-per-channel-performance">
-<h3>L2 Cache Per Channel Performance<a class="headerlink" href="#l2-cache-per-channel-performance" title="Permalink to this headline"></a></h3>
-<section id="id7">
-<h4>L1-L2 Transactions<a class="headerlink" href="#id7" title="Permalink to this headline"></a></h4>
+</div>
+</div>
+<div class="section" id="l2-cache-per-channel-performance">
+<h3>L2 Cache Per Channel Performance<a class="headerlink" href="#l2-cache-per-channel-performance" title="Permalink to this heading"></a></h3>
+<div class="section" id="id7">
+<h4>L1-L2 Transactions<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
 <p><img alt="L1-L2 Transactions" src="_images/L1_l2_transactions_per_channel.png" /></p>
-</section>
-<section id="id8">
-<h4>L2-EA Transactions<a class="headerlink" href="#id8" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="id8">
+<h4>L2-EA Transactions<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
 <p><img alt="L2-EA Transactions" src="_images/L2_ea_transactions_per_channel.png" /></p>
-</section>
-<section id="l2-ea-latencies">
-<h4>L2-EA Latencies<a class="headerlink" href="#l2-ea-latencies" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="l2-ea-latencies">
+<h4>L2-EA Latencies<a class="headerlink" href="#l2-ea-latencies" title="Permalink to this heading"></a></h4>
 <p><img alt="L2-EA Latencies" src="_images/L2_ea_latencies_per_channel.png" /></p>
-</section>
-<section id="id9">
-<h4>L2-EA Stalls<a class="headerlink" href="#id9" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="id9">
+<h4>L2-EA Stalls<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h4>
 <p><img alt="L2-EA Stalls" src="_images/L2_ea_stalls_per_channel.png" /></p>
-</section>
-<section id="l2-ea-write-stalls">
-<h4>L2-EA Write Stalls<a class="headerlink" href="#l2-ea-write-stalls" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="l2-ea-write-stalls">
+<h4>L2-EA Write Stalls<a class="headerlink" href="#l2-ea-write-stalls" title="Permalink to this heading"></a></h4>
 <p><img alt="L2-EA Write Stalls" src="_images/L2_ea_write_stalls_per_channel.png" /></p>
-</section>
-<section id="l2-ea-write-starvation">
-<h4>L2-EA Write Starvation<a class="headerlink" href="#l2-ea-write-starvation" title="Permalink to this headline"></a></h4>
+</div>
+<div class="section" id="l2-ea-write-starvation">
+<h4>L2-EA Write Starvation<a class="headerlink" href="#l2-ea-write-starvation" title="Permalink to this heading"></a></h4>
 <p><img alt="L2-EA Write Starvation" src="_images/L2_ea_write_starvation_per_channel.png" /></p>
-</section>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
+</div>
 
 
            </div>
@@ -608,7 +608,18 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C5DYLCE9ED"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-C5DYLCE9ED', {
+          'anonymize_ip': false,
+      });
+    </script> 
 
 </body>
 </html>
