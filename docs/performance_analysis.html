@@ -54,7 +54,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#dispatch-filtering">Dispatch Filtering</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#omniperf-grafana-gui-import">Omniperf Grafana GUI Import</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="standalone_gui_analyzer.html">Web-based GUI Analysis</a></li>
@@ -429,90 +428,6 @@ IP Blocks: All
 ... ...
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="omniperf-grafana-gui-import">
-<h2>Omniperf Grafana GUI Import<a class="headerlink" href="#omniperf-grafana-gui-import" title="Permalink to this heading"></a></h2>
-<p>The omniperf database <code class="docutils literal notranslate"><span class="pre">--import</span></code> option imports the raw profiling data to Grafana’s backend MongoDB database. This step is only required for Grafana GUI based performance analysis.</p>
-<p>Each workload is imported to a separate database with the following naming convention:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>omniperf_&lt;team&gt;_&lt;database&gt;_&lt;soc&gt;
-</pre></div>
-</div>
-<p>e.g., omniperf_asw_vcopy_mi200.</p>
-<p>Below is the sample command to import the <em>vcopy</em> profiling data.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf database --help
-ROC Profiler:  /usr/bin/rocprof
-
-usage: 
-                                        
-omniperf database &lt;interaction type&gt; [connection options]
-
-                                        
-
--------------------------------------------------------------------------------
-                                        
-Examples:
-                                        
-        omniperf database --import -H pavii1 -u temp -t asw -w workloads/vcopy/mi200/
-                                        
-        omniperf database --remove -H pavii1 -u temp -w omniperf_asw_sample_mi200
-                                        
--------------------------------------------------------------------------------
-
-                                        
-
-Help:
-  -h, --help             show this help message and exit
-
-General Options:
-  -v, --version          show program&#39;s version number and exit
-  -V, --verbose          Increase output verbosity
-
-Interaction Type:
-  -i, --import                                          Import workload to Omniperf DB
-  -r, --remove                                          Remove a workload from Omniperf DB
-
-Connection Options:
-  -H , --host                                           Name or IP address of the server host.
-  -P , --port                                           TCP/IP Port. (DEFAULT: 27018)
-  -u , --username                                       Username for authentication.
-  -p , --password                                       The user&#39;s password. (will be requested later if it&#39;s not set)
-  -t , --team                                           Specify Team prefix.
-  -w , --workload                                       Specify name of workload (to remove) or path to workload (to import)
-  -k , --kernelVerbose                                  Specify Kernel Name verbose level 1-5. 
-                                                        Lower the level, shorter the kernel name. (DEFAULT: 2) (DISABLE: 5)
-</pre></div>
-</div>
-<p><strong>omniperf import for vcopy:</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omniperf database --import -H pavii1 -u temp -t asw -w workloads/vcopy/mi200/
-ROC Profiler:  /usr/bin/rocprof
- 
---------
-Import Profiling Results
---------
- 
-Pulling data from  /home/amd/xlu/test/workloads/vcopy/mi200
-The directory exists
-Found sysinfo file
-KernelName shortening enabled
-Kernel name verbose level: <span class="m">2</span>
-Password:
-Password recieved
--- Conversion <span class="p">&amp;</span> Upload in Progress --
-  <span class="m">0</span>%<span class="p">|</span>                                                                                                                                                                                                             <span class="p">|</span> <span class="m">0</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;?, ?it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_IFETCH_LEVEL.csv
-  <span class="m">9</span>%<span class="p">|</span>█████████████████▉                                                                                                                                                                                   <span class="p">|</span> <span class="m">1</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:01,  <span class="m">8</span>.53it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/pmc_perf.csv
- <span class="m">18</span>%<span class="p">|</span>███████████████████████████████████▊                                                                                                                                                                 <span class="p">|</span> <span class="m">2</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:01,  <span class="m">6</span>.99it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_INST_LEVEL_SMEM.csv
- <span class="m">27</span>%<span class="p">|</span>█████████████████████████████████████████████████████▋                                                                                                                                               <span class="p">|</span> <span class="m">3</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:01,  <span class="m">7</span>.90it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_LEVEL_WAVES.csv
- <span class="m">36</span>%<span class="p">|</span>███████████████████████████████████████████████████████████████████████▋                                                                                                                             <span class="p">|</span> <span class="m">4</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00,  <span class="m">8</span>.56it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_INST_LEVEL_LDS.csv
- <span class="m">45</span>%<span class="p">|</span>█████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                           <span class="p">|</span> <span class="m">5</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00,  <span class="m">9</span>.00it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/SQ_INST_LEVEL_VMEM.csv
- <span class="m">55</span>%<span class="p">|</span>███████████████████████████████████████████████████████████████████████████████████████████████████████████▍                                                                                         <span class="p">|</span> <span class="m">6</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00,  <span class="m">9</span>.24it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/sysinfo.csv
- <span class="m">64</span>%<span class="p">|</span>█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                                                                       <span class="p">|</span> <span class="m">7</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00,  <span class="m">9</span>.37it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/roofline.csv
- <span class="m">82</span>%<span class="p">|</span>█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                                   <span class="p">|</span> <span class="m">9</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00, <span class="m">12</span>.60it/s<span class="o">]</span>/home/amd/xlu/test/workloads/vcopy/mi200/timestamps.csv
-<span class="m">100</span>%<span class="p">|</span>████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████<span class="p">|</span> <span class="m">11</span>/11 <span class="o">[</span><span class="m">00</span>:00&lt;<span class="m">00</span>:00, <span class="m">11</span>.05it/s<span class="o">]</span>
-<span class="m">9</span> collections added.
-Workload name uploaded
--- Complete! --
-</pre></div>
 </div>
 </div>
 </div>
