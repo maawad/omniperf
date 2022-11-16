@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Web-based GUI Analysis &mdash; Omniperf  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -13,13 +14,12 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Grafana-based Analysis" href="grafana_analyzer.html" />
-    <link rel="prev" title="Performance Analysis" href="performance_analysis.html" /> 
+    <link rel="prev" title="Performance Profiling" href="performance_analysis.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -30,7 +30,7 @@
             <a href="index.html" class="icon icon-home"> Omniperf
           </a>
               <div class="version">
-                1.0.4-dev
+                1.0.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,7 +46,7 @@
 <li class="toctree-l1"><a class="reference internal" href="high_level_design.html">High Level Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="performance_analysis.html">Performance Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_analysis.html">Performance Profiling</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Web-based GUI Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
@@ -80,12 +80,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="web-based-gui-analysis">
-<h1>Web-based GUI Analysis<a class="headerlink" href="#web-based-gui-analysis" title="Permalink to this heading"></a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="web-based-gui-analysis">
+<h1>Web-based GUI Analysis<a class="headerlink" href="#web-based-gui-analysis" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<div class="section" id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading"></a></h2>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline"></a></h2>
 <p>Omniperf’s standalone GUI analyzer is a lightweight web page that can
 be generated directly from the command-line. This option is provided
 as an alternative for users wanting to explore profiling results
@@ -104,9 +104,9 @@ between the desired web browser host (e.g. login node or remote workstation) and
 required. Alternatively, users may find it more convenient to download
 profiled workloads to perform analysis on their local system.</p>
 </div>
-</div>
-<div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
 <p>To launch the standalone GUI, include the <code class="docutils literal notranslate"><span class="pre">--gui</span></code> flag with your desired analysis command. For example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ omniperf analyze -p workloads/vcopy/mi200/ --gui
 
@@ -118,11 +118,11 @@ Dash is running on http://0.0.0.0:8050/
 
  * Serving Flask app <span class="s1">&#39;omniperf_cli.omniperf_cli&#39;</span> <span class="o">(</span>lazy loading<span class="o">)</span>
  * Environment: production
-   WARNING: This is a development server. Do not use it in a production deployment.
+   WARNING: This is a development server. Do not use it <span class="k">in</span> a production deployment.
    Use a production WSGI server instead.
  * Debug mode: off
  * Running on all addresses <span class="o">(</span><span class="m">0</span>.0.0.0<span class="o">)</span>
-   WARNING: This is a development server. Do not use it in a production deployment.
+   WARNING: This is a development server. Do not use it <span class="k">in</span> a production deployment.
  * Running on http://127.0.0.1:8050
  * Running on http://10.228.32.139:8050 <span class="o">(</span>Press CTRL+C to quit<span class="o">)</span>
 </pre></div>
@@ -151,14 +151,14 @@ sections become available with detailed metrics specific to that area
 of AMD hardware. These detailed sections mirror the data displayed in
 Omniperf’s <a class="reference external" href="https://amdresearch.github.io/omniperf/grafana_analyzer.html#">Grafana
 interface</a>.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="performance_analysis.html" class="btn btn-neutral float-left" title="Performance Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="performance_analysis.html" class="btn btn-neutral float-left" title="Performance Profiling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="grafana_analyzer.html" class="btn btn-neutral float-right" title="Grafana-based Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
