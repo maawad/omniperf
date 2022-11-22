@@ -22,23 +22,15 @@
 
 import os
 import argparse
-from common import (
-    OMNIPERF_HOME,
-    PROG,
-    SOC_LIST,
-)  # Import global variables
-from common import getVersion, getVersionDisplay
 
-
-def parse(my_parser):
-
-    # versioning info
-    vData = getVersion()
-    versionString = getVersionDisplay(vData["version"], vData["sha"], vData["mode"])
+def parse(my_parser,commonData):
 
     # -----------------------------------------
     # Parse arguments (dependent on mode)
     # -----------------------------------------
+
+    versionString = commonData.getVersionDisplay()
+    OMNIPERF_HOME = commonData.HOME
 
     ## General Command Line Options
     ## ----------------------------

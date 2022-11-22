@@ -40,14 +40,13 @@ from utils import plot_roofline  # standalone roofline
 from omniperf_cli.omniperf_cli import omniperf_cli  # CLI analysis
 
 from common import (
-    OMNIPERF_HOME,
-    PROG,
-    SOC_LIST,
-    DISTRO_MAP,
+    # OMNIPERF_HOME,
+    # PROG,
+    # SOC_LIST,
+    # DISTRO_MAP,
+    OmniperfCommon
 )  # Import global variables
-
-from common import getVersion
-
+   
 ################################################
 # Helper Functions
 ################################################
@@ -422,11 +421,10 @@ def main():
         ),
         usage="omniperf [mode] [options]",
     )
-    parse(my_parser)
-    args = my_parser.parse_args()
 
-    vData = getVersion()
-    VER   = vData['version']
+    commonData = OmniperfCommon()
+    parse(my_parser,commonData)
+    args = my_parser.parse_args()
 
     if args.mode == None:
         throw_parse_error(
