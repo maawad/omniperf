@@ -89,8 +89,10 @@ def get_soc():
         target = "mi100"
     elif mspec.GPU == "gfx90a":
         target = "mi200"
+    elif mspec.GPU == "gfx1100":
+        target ="gfx1100"
     else:
-        print("\nInvalid SoC")
+        print("\n", mspec, " is invalid SoC")
         sys.exit(0)
     return target
 
@@ -472,7 +474,6 @@ def main():
                 my_parser, "Access denied. Cannot access parent directories in path ../"
             )
         args.target = get_soc()  # Must have a valid soc in profile mode
-
         # Verify correct command formatting
         args.remaining = args.remaining[1:]
         if args.remaining:
