@@ -32,7 +32,7 @@ from dataclasses import dataclass
 from pathlib import Path as path
 from textwrap import dedent
 
-gpu_list = {"gfx906", "gfx908", "gfx90a"}
+gpu_list = {"gfx906", "gfx908", "gfx90a", 'gfx1100'}
 
 
 @dataclass
@@ -86,11 +86,11 @@ class MachineSpecs:
 def gpuinfo():
 
     rocminfo = run(["rocminfo"]).split("\n")
-
     for idx1, linetext in enumerate(rocminfo):
         gpu_id = search(r"^\s*Name\s*:\s+ ([a-zA-Z0-9]+)\s*$", linetext)
         if gpu_id in gpu_list:
             break
+    print(gpu_id)
 
     if not gpu_id in gpu_list:
         return None, None, None, None, None, None, None, None, None, None
