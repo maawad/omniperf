@@ -1,0 +1,2 @@
+name,numSE,numCU,numSIMD,numWavesPerCU,numSQC,L2Banks,Freq,mclk
+gfx1100,12,84,168,32,1,1,3125,2500
